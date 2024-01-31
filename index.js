@@ -13,23 +13,24 @@ app.get('/', (req, res) => {
     const html = `
         <html>
           <head>
-            <title>hehe</title>
-            </head>
+             <title>hehe</title>
+          </head>
             <body>
-            <h1>Container</h1>
-           
+              <h1>Container</h1>
+              <a href="https://fictional-waddle-q5q4wwr97x3xj7q-3000.app.github.dev/create-container">
+              <button>Run Container</button>
+              </a>
            </body>
         </html>
         `;
-
     res.send(html);
 });
 
 app.get('/create-container', (req, res) => {
-    // You can replace this with logic to generate container configurations dynamically.
+    
     const containerConfig = {
-        Image: 'ubuntu:latest',
-        Cmd: ['echo', 'Hello, World!'],
+        Image: 'itzg/minecraft-server',
+        name: 'users-mc-server'
     };
 
     docker.createContainer(containerConfig, (err, container) => {
@@ -43,7 +44,7 @@ app.get('/create-container', (req, res) => {
                     res.status(500).send('Error starting container');
                 } else {
                     console.log('Container created and started successfully');
-                    res.status(200).send('Container created and started successfully');
+                    res.status(200).send('');
                 }
             });
         }
