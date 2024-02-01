@@ -1,36 +1,47 @@
-// Install necessary Node.js packages:
-// npm install express dockerode
-
 const express = require('express');
 const Docker = require('dockerode');
+const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
-const docker = new Docker();
+var docker = new Docker();
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-
     const html = `
         <html>
           <head>
              <title>hehe</title>
           </head>
             <body>
-              <h1>Container</h1>
-              <a href="https://fictional-waddle-q5q4wwr97x3xj7q-3000.app.github.dev/create-container">
-              <button>Run Container</button>
-              </a>
+            <h1>Make Container</h1>
+            <form action="/create-container" method="post">
+            <label for="username">Server name:</label>
+            <input type="text" id="username" name="username" required>
+            <button type="submit">Create Container</button>
+            </form>
            </body>
         </html>
         `;
     res.send(html);
 });
 
-app.get('/create-container', (req, res) => {
-    
+app.post('/create-container', (req, res) => {
+    console.log('Received POST request with body:', req.body);
+
+    const serverName = req.body.username;
+
+    console.log(serverName);
+
+    if (!serverName) {
+        res.status(400).send('Server name reqired');
+        return;
+    }
+
     const containerConfig = {
-        Image: 'itzg/minecraft-server',
-        name: 'users-mc-server'
+        Image: 'itzg/minecraft-server', //An example image
+        name: serverName,
     };
 
     docker.createContainer(containerConfig, (err, container) => {
@@ -52,5 +63,5 @@ app.get('/create-container', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${ port } `);
+    console.log(`Server is running on port ${port} `);
 });
