@@ -1,11 +1,9 @@
 const express = require('express');
-const Docker = require('dockerode');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 const { exec } = require('child_process');
-
-var docker = new Docker();
+const DockerModules = require(__dirname + '/modules/DockerModules.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -31,29 +29,9 @@ app
         return;
     }
 
+    DockerModules.makeContainer(serverName);
+
     //containerId = serverName.container.Id
-
-    const containerConfig = {
-        Image: 'itzg/minecraft-server', //An example image
-        name: serverName,
-        context: __dirname,
-    };
-
-    docker.createContainer(containerConfig, (err, container) => {
-        if (err) {
-            console.error('Error creating container:', err);
-            res.status(500).send('Error creating container');
-        } else {
-            container.start((startErr) => {
-                if (startErr) {
-                    console.error('Error starting container:', startErr);
-                    res.status(500).send('Error starting container');
-                } else {
-                    console.log('Container created and started successfully');
-                }
-            });
-        }
-    });
     res.redirect('/pannel');
 });
 
