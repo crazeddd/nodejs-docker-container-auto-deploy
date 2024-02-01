@@ -3,45 +3,40 @@ const Docker = require('dockerode');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
+const { exec } = require('child_process');
 
 var docker = new Docker();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-    const html = `
-        <html>
-          <head>
-             <title>hehe</title>
-          </head>
-            <body>
-            <h1>Make Container</h1>
-            <form action="/create-container" method="post">
-            <label for="username">Server name:</label>
-            <input type="text" id="username" name="username" required>
-            <button type="submit">Create Container</button>
-            </form>
-           </body>
-        </html>
-        `;
-    res.send(html);
-});
+app
+    .get('/', (req, res) => {
+        res.sendFile(__dirname + '/index.html');
+    })
 
-app.post('/create-container', (req, res) => {
+    .get('/pannel', (req, res) => {
+        res.sendFile(__dirname + '/pages/pannel.html')
+    })
+
+    .post('/create-container', (req, res) => {
+
+    //FOR TESTING ONlY
+
     console.log('Received POST request with body:', req.body);
 
     const serverName = req.body.username;
-
-    console.log(serverName);
 
     if (!serverName) {
         res.status(400).send('Server name reqired');
         return;
     }
 
+    //containerId = serverName.container.Id
+
     const containerConfig = {
         Image: 'itzg/minecraft-server', //An example image
         name: serverName,
+        context: __dirname,
     };
 
     docker.createContainer(containerConfig, (err, container) => {
@@ -55,11 +50,11 @@ app.post('/create-container', (req, res) => {
                     res.status(500).send('Error starting container');
                 } else {
                     console.log('Container created and started successfully');
-                    res.status(200).send('');
                 }
             });
         }
     });
+    res.redirect('/pannel');
 });
 
 app.listen(port, () => {
