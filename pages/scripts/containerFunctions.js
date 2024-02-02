@@ -1,6 +1,6 @@
 const { json, response } = require("express");
 
-document.querySelector('form').addEventListener('submit', async function(e) {
+document.querySelector('form').addEventListener('submit', async function submit_form(e) {
     e.preventDefault()
 
     const containerName = document.getElementById('containerName').value;

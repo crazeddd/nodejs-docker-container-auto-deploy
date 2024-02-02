@@ -1,19 +1,19 @@
 const Docker = require('dockerode');
 var docker = new Docker();
 
-function stopContainer(containerName) {
+async function stopContainer(containerName) {
     const container = docker.getContainer(containerName);
     container.stop((err) => {
         if (err) {
             console.error("Error stopping container");
             console.error(err);
         } else {
-            console.log('Successfully stopped container.');
+            console.log('Successfully stopped containerss');
         }
     });
 }
 
-function makeContainer(containerName) {
+async function makeContainer(containerName) {
     const containerConfig = {
         Image: 'itzg/minecraft-server', //An example image
         name: containerName,
