@@ -1,36 +1,27 @@
 const Docker = require('dockerode');
 var docker = new Docker();
 
-function stopContainer() {
-    fetch('/stop-container', {
-        method: 'POST',
-        headers: {
-            'Content-Type': '/application.json',
-        },
-        body:
-            JSON.stringify({ containerId })
-    })
-        .then((repsonse) => {
-            if (!response.ok) {
-                throw new Error('Error stopping container');
-            }
-            return response.text();
-        })
-
-        .then((data) => {
-            console.log(data);
-        })
-
-        .then((error) => {
-            console.error(error);
-        })
+function stopContainer(containerName) {
+    const container = docker.getContainer(containerName);
+    container.stop((err) => {
+        if (err) {
+            console.error("Error stopping container");
+            console.error(err);
+        } else {
+            console.log('Successfully stopped container.');
+        }
+    });
 }
 
-function makeContainer(serverName) {
+function makeContainer(containerName) {
     const containerConfig = {
         Image: 'itzg/minecraft-server', //An example image
-        name: serverName,
+        name: containerName,
         context: __dirname,
+        Env: [
+           'EULA=TRUE',
+           'PORT=25565'
+        ],
     };
 
     docker.createContainer(containerConfig, (err, container) => {
@@ -46,8 +37,26 @@ function makeContainer(serverName) {
             });
         }
     });
+} 
+
+async function removeStoppedContainers() {
+    const containers = await docker.listContainers({ all: true });
+    for (const containerInfo of containers) {
+        if (containerInfo.State === 'exited') {
+            const container = docker.getContainer(containerInfo.Id);
+            try {
+                await container.remove();
+                console.log(`Removed container: ${containerInfo.Names[0]}`);
+            } catch (error) {
+                console.error(`Error removing container: ${containerInfo.Names[0]}`, error);
+            }
+        }
+    }
 }
+
+// Call this function after stopping the containers
 module.exports = {
     makeContainer,
     stopContainer,
+    removeStoppedContainers,
 };

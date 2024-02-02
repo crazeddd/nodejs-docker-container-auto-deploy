@@ -16,24 +16,31 @@ app
         res.sendFile(__dirname + '/pages/pannel.html')
     })
 
-    .post('/create-container', (req, res) => {
+    .post('/create-container', async (req, res) => {
+        await DockerModules.removeStoppedContainers();
 
-    //FOR TESTING ONlY
+        const containerName = req.body.username;
 
-    console.log('Received POST request with body:', req.body);
+        if(!containerName) {
+            res.status(400).send('Container name reqired');
+            return;
+        }
+        try {
+            var container = await DockerModules.makeContainer(containerName);
+            res.redirect('/pannel');
+        } catch(error){
+            res.status(500).send('Error creating container');
+        }
+    })
 
-    const serverName = req.body.username;
-
-    if (!serverName) {
-        res.status(400).send('Server name reqired');
-        return;
-    }
-
-    DockerModules.makeContainer(serverName);
-
-    //containerId = serverName.container.Id
-    res.redirect('/pannel');
-});
+    .post('/stop-container', async (req, res) => {
+        const  containerName  = req.body.username;
+        try {
+            await DockerModules.stopContainer(containerName);
+        } catch(error){
+            res.status(500).send('Error stopping container');
+        }
+    });
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port} `);

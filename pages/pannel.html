@@ -1,12 +1,17 @@
 <html>
 
 <head>
-    <title>Wubwuba</title>
+    <title>Manage Container</title>
+    <script src="scripts/DockerFunctions.js"></script>
 </head>
 
 <body>
     <h1>Manage Container</h1>
-    <button id="stopContainer" onclick="stopContainer">Stop Container</button>
+    <form action="/stop-container" method="post">
+        <label for="username">Server name:</label>
+        <input type="text" id="containerName" name="username" required>
+        <button type="submit">Stop Container</button>
+    </form>
 </body>
 
 </html>
