@@ -1,7 +1,9 @@
 const { json, response } = require("express");
 
-document.querySelector('form').addEventListener('submit', async function submit_form(e) {
+document.querySelector('#stopContainerForm').addEventListener('submit', async function submit_form(e) {
     e.preventDefault()
+
+    console.log("Received stop request");
 
     const containerName = document.getElementById('containerName').value;
     try {
