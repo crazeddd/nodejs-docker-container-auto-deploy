@@ -8,7 +8,7 @@ const DockerModules = require(__dirname + '/modules/DockerModules.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static('pages'));
 
 app
     .get('/', (req, res) => {

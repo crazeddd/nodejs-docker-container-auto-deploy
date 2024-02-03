@@ -1,27 +1,10 @@
-<html>
-
-<head>
-    <title>Manage Container</title>
-    <!--<script type="application/javascript" src="scripts/containerFunctions.js"></script>-->
-</head>
-
-<body>
-    <h1>Manage Container</h1>
-    <form id="stopContainerForm">
-        <label for="username">Server name:</label>
-        <input type="text" id="containerName" name="containerName" required>
-        <button type="submit">Stop Container</button>
-    </form>
-    <p id="status">Null</p>
-</body>
-<script>
-    document.getElementById('stopContainerForm').addEventListener('submit', function (e) {
+document.getElementById('stopContainerForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     console.log("Received stop request");
     const containerName = document.getElementById('containerName').value;
 
-    var status = document.getElementById('status');
+    var status = getElementById('status');
     console.log(containerName);
 
     const res = fetch('/stop-container', {
@@ -44,5 +27,3 @@
             status.textContent = data;
         });
 });
-</script>
-</html>
