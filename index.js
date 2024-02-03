@@ -1,11 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
 const { exec } = require('child_process');
+const port = 3000;
+
 const DockerModules = require(__dirname + '/modules/DockerModules.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static('public'));
 
 app
     .get('/', (req, res) => {
@@ -34,11 +37,12 @@ app
     })
 
     .post('/stop-container', async (req, res) => {
-        const  containerName  = req.body.username;
+        const { containerName } = req.body;
         try {
             await DockerModules.stopContainer(containerName);
         } catch(error){
-            res.status(500).send('Error stopping container');
+            res.status(500).json({error: "Error stopping container"});
+            return;
         }
     });
 

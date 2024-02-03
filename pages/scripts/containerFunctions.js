@@ -1,27 +1,23 @@
-const { json, response } = require("express");
+//const { json, response } = require("express");
 
-document.querySelector('#stopContainerForm').addEventListener('submit', async function submit_form(e) {
-    e.preventDefault()
+document.getElementById('stopContainerForm').addEventListener('submit', function (e) {
+    e.preventDefault();
 
     console.log("Received stop request");
 
     const containerName = document.getElementById('containerName').value;
-    try {
-        const res = await fetch('/stop-container', {
+        const res = fetch('/stop-container', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body:
-                json.stringify({ containerName })
+                json.stringify({ "containerName": "containerName" })
         });
-        if (response.ok) {
-            console.log('Successfully stopped container');
+
+        if (res.ok) {
+            return res.text();
         } else {
-            console.log('Failed to stop container');
+            throw new Error('Error stopping container');
         }
-    }
-    catch (error) {
-        console.error(error);
-    }
-});
+    });

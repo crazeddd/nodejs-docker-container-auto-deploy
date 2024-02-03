@@ -6,9 +6,8 @@ async function stopContainer(containerName) {
     container.stop((err) => {
         if (err) {
             console.error("Error stopping container");
-            console.error(err);
         } else {
-            console.log('Successfully stopped containerss');
+            console.log('Successfully stopped container');
         }
     });
 }
