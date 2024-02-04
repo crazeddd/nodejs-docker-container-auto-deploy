@@ -1,0 +1,18 @@
+<html>
+
+<head>
+    <title>Manage Container</title>
+    <script type="application/javascript" src="scripts/containerFunctions.js"></script>
+</head>
+
+<body>
+    <h1>Manage Container</h1>
+    <label for="containerName">Server name:</label>
+    <input type="text" id="containerName" name="containerName" required>
+    <button class="containerReq" type="submit" id="stop" onClick="serverReq(this.id)">Stop Container</button>
+    <button class="containerReq" type="submit" id="run" onClick="serverReq(this.id)">Run Container</button>
+
+    <p id="status">Null</p>
+</body>
+
+</html>

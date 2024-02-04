@@ -1,17 +1,6 @@
 const Docker = require('dockerode');
 var docker = new Docker();
 
-async function stopContainer(containerName) {
-    const container = docker.getContainer(containerName);
-    container.stop((err) => {
-        if (err) {
-            console.error("Error stopping container");
-        } else {
-            console.log('Successfully stopped container');
-        }
-    });
-}
-
 async function makeContainer(containerName) {
     const containerConfig = {
         Image: 'itzg/minecraft-server', //An example image
@@ -38,6 +27,17 @@ async function makeContainer(containerName) {
     });
 } 
 
+async function startContainer(containerName) {
+    const container = docker.getContainer(containerName);
+    container.start((err) => {
+        if (err) {
+            console.error("Error starting container");
+        } else {
+            console.log('Successfully started container');
+        }
+    });
+}
+
 async function removeStoppedContainers() {
     const containers = await docker.listContainers({ all: true });
     for (const containerInfo of containers) {
@@ -52,6 +52,18 @@ async function removeStoppedContainers() {
         }
     }
 }
+
+async function stopContainer(containerName) {
+    const container = docker.getContainer(containerName);
+    container.stop((err) => {
+        if (err) {
+            console.error("Error stopping container");
+        } else {
+            console.log('Successfully stopped container');
+        }
+    });
+}
+
 
 // Call this function after stopping the containers
 module.exports = {
