@@ -47,9 +47,10 @@ app
 
         try {
             await eval(containerFunction);
-            res.json({ message: 'Function ran successfully' });
+            res.json({  });
         } catch(error){
-            res.status(500).json({error: "Error when running container request"});
+            res.status(500).json({message: "Error when running container request"});
+            return;
         }
     });
 
