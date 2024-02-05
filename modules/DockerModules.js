@@ -7,8 +7,8 @@ async function makeContainer(containerName) {
         name: containerName,
         context: __dirname,
         Env: [
-           'EULA=TRUE',
-           'PORT=25565'
+            'EULA=TRUE',
+            'PORT=25565'
         ],
     };
 
@@ -23,17 +23,6 @@ async function makeContainer(containerName) {
                     console.log('Container created and started successfully');
                 }
             });
-        }
-    });
-} 
-
-async function startContainer(containerName) {
-    const container = docker.getContainer(containerName);
-    container.start((err) => {
-        if (err) {
-            console.error("Error starting container");
-        } else {
-            console.log('Successfully started container');
         }
     });
 }
@@ -61,13 +50,25 @@ async function stopContainer(containerName) {
         } else {
             console.log('Successfully stopped container');
         }
+    }
+    )
+}
+
+async function startContainer(containerName) {
+    const container = docker.getContainer(containerName);
+    container.start((err) => {
+        if (err) {
+            console.error("Error starting container");
+        } else {
+            console.log('Successfully started container');
+        }
     });
 }
 
 
-// Call this function after stopping the containers
 module.exports = {
     makeContainer,
     stopContainer,
+    startContainer,
     removeStoppedContainers,
 };

@@ -43,12 +43,13 @@ app
 
         console.log(`New inbound ${reqType} request from ${containerName}`);
 
+        var containerFunction = `DockerModules.${reqType}Container(containerName)`;
+
         try {
-            //await DockerModules.runContainer(containerName);
+            await eval(containerFunction);
             res.json({ message: 'Function ran successfully' });
         } catch(error){
             res.status(500).json({error: "Error when running container request"});
-            return;
         }
     });
 

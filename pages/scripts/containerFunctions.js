@@ -21,7 +21,7 @@ function serverReq(reqType) {
         .then(data => {
             if (res.ok) {
                 console.log(data.message);
-                status.textContent = data;
+                status.textContent = 'Running';
             } else {
                 throw new Error('Error stopping container');
             }
