@@ -59,9 +59,9 @@ app
             //WILL REPLACE EVAL SOON
             const message = await eval(`DockerModules.${reqType}Container(containerName)`);
 
-            res.json({ message: message });
+            res.status(200).json({ message: message });
         } catch (error) {
-            res.json({ message: error.message });
+            res.status(500).json({ message: error.message });
         }
     });
 

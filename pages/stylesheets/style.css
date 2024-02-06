@@ -83,11 +83,9 @@ h1 mark {
   border-radius: 1rem;
   padding: 0.5rem;
   color: rgba(var(--background), 1);
-  background: -webkit-linear-gradient(
-    180deg,
-    rgba(var(--primary), 1),
-    rgba(var(--accent), 1)
-  );
+  background: -webkit-linear-gradient(180deg,
+      rgba(var(--primary), 1),
+      rgba(var(--accent), 1));
 }
 
 hr {
@@ -193,15 +191,21 @@ pre {
 
 .container {
   display: flex;
-  gap: 1rem;
-  padding: 1rem;
   background-color: rgba(var(--background_light), 0.5);
   border-radius: 0.5rem;
-  text-align: center;
+  justify-content: space-between;
+}
+
+.container-items {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  gap: 1rem;
+  align-items: center;
 }
 
 .container.vertical {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .container p {
@@ -217,8 +221,14 @@ pre {
   height: 100%;
 }
 
-.containers.center{
-    align-items: center;
-    justify-content: center;
-  }
-  
+.containers.center {
+  align-items: center;
+  justify-content: center;
+}
+
+#status {
+  height: 0.5rem;
+  width: 0.5rem;
+  background: red;
+  border-radius: 50%;
+}

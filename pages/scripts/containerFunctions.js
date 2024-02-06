@@ -1,6 +1,7 @@
 function containerReq(reqType) {
     const containerName = document.getElementById('containerName').value;
     var status = document.getElementById("status");
+    var res = document.getElementById("res");
 
     console.log(`Passing ${reqType} request for ${containerName}...`);
 
@@ -11,22 +12,23 @@ function containerReq(reqType) {
 
     const req = fetch('/containerReq', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     })
+
         .then(res => res.json())
         .then(data => {
-            status.textContent = data.message;
-        })
+            res.textContent = data.message;
+            console.log(data.message);
+        });
+
 };
 
 //create-server.js
 
-function createContainer() {
+/*function createContainer() {
     const containerName = document.getElementById('containerName').value,
-    ports = document.getElementById('ports').value;
+        ports = document.getElementById('ports').value;
 
     var status = document.getElementById("status");
 
@@ -47,4 +49,4 @@ function createContainer() {
             status.textContent = data.message;
         })
 
-}
+} */
