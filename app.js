@@ -25,35 +25,32 @@ app
 
         const containerName = req.body.username;
 
-        if(!containerName) {
+        if (!containerName) {
             res.status(400).send('Container name reqired');
             return;
         }
         try {
             var container = await DockerModules.makeContainer(containerName);
             res.redirect('/panel');
-        } catch(error){
+        } catch (error) {
             res.status(500).send('Error creating container');
         }
     })
 
     .post('/containerReq', async (req, res) => {
         const containerName = req.body.id,
-        reqType = req.body.type;
+            reqType = req.body.type;
 
         console.log(`New inbound ${reqType} request from ${containerName}`);
 
-        var containerFunction = `DockerModules.${reqType}Container(containerName)`;
-
         try {
-            await eval(containerFunction);
-            res.json({  });
-        } catch(error){
-            res.status(500).json({message: "Error when running container request"});
-            return;
+            const message = await eval(`DockerModules.${reqType}Container(containerName)`);
+            res.json({ message: message });
+        } catch (error) {
+            res.json({ message: error.message });
         }
     });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port} `);
+    console.log(`Server is running on port ${port}`);
 });

@@ -1,7 +1,7 @@
 const Docker = require('dockerode');
 var docker = new Docker();
 
-async function makeContainer(containerName) {
+function makeContainer(containerName) {
     const containerConfig = {
         Image: 'itzg/minecraft-server', //An example image
         name: containerName,
@@ -42,26 +42,34 @@ async function removeStoppedContainers() {
     }
 }
 
-async function stopContainer(containerName) {
-    const container = docker.getContainer(containerName);
-    container.stop((err) => {
-        if (err) {
-            console.error("Error stopping container");
-        } else {
-            console.log('Successfully stopped container');
-        }
-    }
-    )
+function stopContainer(containerName) {
+    return new Promise((resolve, reject) => {
+        const container = docker.getContainer(containerName);
+        container.stop((err) => {
+            if (err) {
+                reject(new Error('Failed to stop container'));
+                console.error(`Error when stopping ${containerName}`)
+            } else {
+                resolve('Successfully stopped container');
+                console.log(`Successfully stopped ${containerName}`);
+            }
+        });
+    });
 }
 
-async function startContainer(containerName) {
-    const container = docker.getContainer(containerName);
-    container.start((err) => {
-        if (err) {
-            console.error("Error starting container");
-        } else {
-            console.log('Successfully started container');
-        }
+
+function startContainer(containerName) {
+    return new Promise((resolve, reject) => {
+        const container = docker.getContainer(containerName);
+        container.start((err) => {
+            if (err) {
+                reject(new Error('Failed to start container'));
+                console.error(`Error when starting ${containerName}`)
+            } else {
+                resolve('Successfully started container');
+                console.log(`Successfully started ${containerName}`);
+            }
+        });
     });
 }
 
