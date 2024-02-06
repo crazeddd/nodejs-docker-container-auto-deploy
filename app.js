@@ -20,17 +20,24 @@ app
         res.sendFile(__dirname + '/pages/panel.html')
     })
 
-    .post('/create-container', async (req, res) => {
+    .get('/create-container', async (req, res) => {
+        res.sendFile(__dirname + '/pages/create-container.html')
+    })
+
+    .post('/build-container', async (req, res) => {
+        //Testing
         await DockerModules.removeStoppedContainers();
 
-        const containerName = req.body.username;
+        const containerName = req.body.id;
+
 
         if (!containerName) {
             res.status(400).send('Container name reqired');
             return;
         }
+
         try {
-            var container = await DockerModules.makeContainer(containerName);
+            await DockerModules.makeContainer(containerName);
             res.redirect('/panel');
         } catch (error) {
             res.status(500).send('Error creating container');
@@ -41,10 +48,17 @@ app
         const containerName = req.body.id,
             reqType = req.body.type;
 
+        if (!containerName) {
+            res.json({ message: "Container name required" });
+            return;
+        }
+
         console.log(`New inbound ${reqType} request from ${containerName}`);
 
         try {
+            //WILL REPLACE EVAL SOON
             const message = await eval(`DockerModules.${reqType}Container(containerName)`);
+
             res.json({ message: message });
         } catch (error) {
             res.json({ message: error.message });

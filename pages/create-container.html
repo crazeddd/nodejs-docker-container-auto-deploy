@@ -10,7 +10,7 @@
   <div class="nav-bar">
     <div class="nav-links">
       <a href="/panel">
-        <p class="active"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <p class="inactive"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
             <path d="M64 32C28.7 32 0 60.7 0 96v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm48 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zM64 288c-35.3 0-64 28.7-64 64v64c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V352c0-35.3-28.7-64-64-64H64zm280 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z" />
           </svg></p>
@@ -22,7 +22,7 @@
           </svg></p>
       </a>
       <a href="/create-container">
-        <p class="inactive"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <p class="active"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
             <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
           </svg></p>
@@ -36,13 +36,15 @@
     </button>
   </div>
 
-  <div class="containers">
-    <div class="container">
-        <input type="text" placeholder="Server Name" id="containerName" name="containerName" required>
-        <button class="containerReq" type="submit" id="stop" onClick="containerReq(this.id)">Stop</button>
-        <button class="containerReq" type="submit" id="start" onClick="containerReq(this.id)">Start</button>
-        <p id="status">Null</p>
+  <div class="containers center">
+    <form>
+    <div class="container vertical">
+        <input type="text" placeholder="Server Name" id="id" required>
+        <input type="text" placeholder="Ports" id="ports" required>
+        <input type="text" placeholder="Directory" id="directory">
+        <button class="containerReq" type="submit">Create Container</button>
     </div>
+  </form>
   </div>
 </body>
 

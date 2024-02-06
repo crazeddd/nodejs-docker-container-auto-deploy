@@ -2,6 +2,7 @@ const Docker = require('dockerode');
 var docker = new Docker();
 
 function makeContainer(containerName) {
+
     const containerConfig = {
         Image: 'itzg/minecraft-server', //An example image
         name: containerName,
@@ -27,6 +28,7 @@ function makeContainer(containerName) {
     });
 }
 
+//FOR TESTING
 async function removeStoppedContainers() {
     const containers = await docker.listContainers({ all: true });
     for (const containerInfo of containers) {
@@ -57,7 +59,6 @@ function stopContainer(containerName) {
     });
 }
 
-
 function startContainer(containerName) {
     return new Promise((resolve, reject) => {
         const container = docker.getContainer(containerName);
@@ -69,10 +70,9 @@ function startContainer(containerName) {
                 resolve('Successfully started container');
                 console.log(`Successfully started ${containerName}`);
             }
-        });
+        }); 
     });
 }
-
 
 module.exports = {
     makeContainer,
