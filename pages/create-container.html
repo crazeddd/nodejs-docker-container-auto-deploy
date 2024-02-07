@@ -41,10 +41,10 @@
   </div>
 
   <div class="containers center">
-    <form>
+    <form action="/build-container" method="post">
       <div class="container vertical container-items">
-        <input type="text" placeholder="Server Name" id="id" required>
-        <input type="text" placeholder="Ports" id="ports" required>
+        <input type="text" placeholder="Server Name" id="containerName" name="containerName" required>
+        <input type="text" placeholder="Ports" id="ports">
         <input type="text" placeholder="Directory" id="directory">
         <button class="containerReq" type="submit">Create Container</button>
       </div>

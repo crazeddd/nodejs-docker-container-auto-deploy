@@ -28,8 +28,7 @@ app
         //Testing
         await DockerModules.removeStoppedContainers();
 
-        const containerName = req.body.id;
-
+        const containerName = req.body.containerName;
 
         if (!containerName) {
             res.status(400).send('Container name reqired');
