@@ -1,12 +1,8 @@
 const Docker = require('dockerode');
 var docker = new Docker();
 
-function makeContainer(containerName, image, port, protocol, directory) {
-    console.log(containerName, image, port, protocol, directory)
-
-    port = `"${port}"`
-
-    console.log(typeof port)
+function makeContainer(containerName, image, port, protocol, directory, env) {
+    console.log(containerName, image, port, protocol, directory, env)
 
     const containerConfig = {
         Image: image,
@@ -20,7 +16,7 @@ function makeContainer(containerName, image, port, protocol, directory) {
             }
         },
         Env: [
-            'EULA=TRUE',
+            
         ],
     };
 

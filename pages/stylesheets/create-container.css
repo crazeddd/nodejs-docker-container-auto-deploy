@@ -1,5 +1,9 @@
   @import "style.css";
   
+  input {
+    width: 100%;
+  }
+
   form {
     background: rgba(var(--background_light), 1);
     border-radius: 0.5rem;
@@ -13,7 +17,7 @@
     display: flex;
     flex-direction: column;
     width: 25rem;
-    padding: 2rem;
+    padding: 3rem;
     gap: 1rem;
   }
   
@@ -37,6 +41,23 @@
     align-items: center;
     width: 100%;
     gap: 1rem;
+  }
+
+  #search {
+    margin-left: -1rem;
+    fill: rgba(var(--text), 1);
+  }
+
+  a #search {
+    background: rgba(var(--accent), 0.5);
+    height: 2rem;
+    width: 2rem;
+    padding: 0.5rem;
+    border-radius: 0rem 0.25rem 0.25rem 0rem;
+  }
+
+  #image {
+    border-radius: 0.25rem 0rem 0rem 0.25rem;
   }
 
   

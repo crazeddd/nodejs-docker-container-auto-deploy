@@ -61,6 +61,7 @@ h5 {
 }
 
 small {
+  color: rgba(var(--text), 0.8);
   font-size: 0.75rem;
 }
 
