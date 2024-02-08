@@ -1,15 +1,26 @@
 const Docker = require('dockerode');
 var docker = new Docker();
 
-function makeContainer(containerName) {
+function makeContainer(containerName, image, port, protocol, directory) {
+    console.log(containerName, image, port, protocol, directory)
+
+    port = `"${port}"`
+
+    console.log(typeof port)
 
     const containerConfig = {
-        Image: 'itzg/minecraft-server', //An example image
+        Image: image,
         name: containerName,
-        context: __dirname,
+        ExposedPorts: {
+            [`${port}/${protocol}`]: {}
+        },
+        HostConfig: {
+            PortBindings: {
+                [`${port}/${protocol}`]: [{HostPort: port}] 
+            }
+        },
         Env: [
             'EULA=TRUE',
-            'PORT=25565'
         ],
     };
 

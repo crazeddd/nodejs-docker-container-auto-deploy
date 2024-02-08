@@ -3,7 +3,7 @@
 <head>
   <title>Manage Container</title>
   <script type="application/javascript" src="scripts/containerFunctions.js"></script>
-  <link rel="stylesheet" href="stylesheets/style.css">
+  <link rel="stylesheet" href="stylesheets/create-container.css">
 </head>
 
 <body>
@@ -39,17 +39,24 @@
       </svg>
     </button>
   </div>
+<div class="main">
 
-  <div class="containers center">
-    <form action="/build-container" method="post">
-      <div class="container vertical container-items">
-        <input type="text" placeholder="Server Name" id="containerName" name="containerName" required>
-        <input type="text" placeholder="Ports" id="ports">
-        <input type="text" placeholder="Directory" id="directory">
-        <button class="containerReq" type="submit">Create Container</button>
+  <form action="/build-container" method="post">
+    <div class="form-items">
+      <input type="text" placeholder="Image" id="image" name="image" required>
+      <input type="text" placeholder="Server Name" id="containerName" name="containerName" required>
+      <div class="form-split">
+        <input type="text" placeholder="Port" id="port" name="port">
+        <p>/</p>
+        <input type="text" placeholder="Type" id="protocol" name="protocol">
       </div>
-    </form>
-  </div>
+      <input type="text" placeholder="Directory" id="directory" name="directory">
+      <hr>
+      <button class="containerReq" type="submit">Create Container</button>
+    </div>
+  </form>
+
+</div>
 </body>
 
 </html>

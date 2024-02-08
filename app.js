@@ -27,16 +27,25 @@ app
     .post('/build-container', async (req, res) => {
         //Testing
         await DockerModules.removeStoppedContainers();
-
-        const containerName = req.body.containerName;
+        
+        const containerName = req.body.containerName,
+        image = req.body.image,
+        ports = req.body.ports,
+        protocol = req.body.protocol,
+        directory = req.body.directory;
 
         if (!containerName) {
             res.status(400).send('Container name reqired');
             return;
         }
 
+        if (!image) {
+            res.status(400).send('Container image reqired');
+            return;
+        }
+
         try {
-            await DockerModules.makeContainer(containerName);
+            await DockerModules.makeContainer(containerName, image, port, protocol, directory);
             res.redirect('/panel');
         } catch (error) {
             res.status(500).send('Error creating container');
