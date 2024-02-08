@@ -16,7 +16,7 @@ function makeContainer(containerName, image, port, protocol, directory, env) {
             }
         },
         Env: [
-            
+            env
         ],
     };
 
