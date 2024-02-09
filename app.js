@@ -5,7 +5,7 @@ const { exec } = require('child_process');
 const { error } = require('console');
 const port = 3000;
 
-const DockerModules = require(__dirname + '/modules/DockerModules.js');
+const DockerModules = require('./modules/DockerModules.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -48,10 +48,20 @@ app
         }
 
         try {
-            await DockerModules.makeContainer(...configVars);
+            let message = await DockerModules.makeContainer(...configVars);
+            await DockerModules.appendContainers();
+            res.status(500).send({message: message});
             res.redirect('/panel');
         } catch (error) {
-            res.status(500).send('Error creating container');
+            res.status(500).send({message: error.message});
+        }
+    })
+    
+    .get('/append-containers', async (req, res) => {
+        try {
+            await DockerModules.appendContainers();
+        } catch (error) {
+            res.status(500).send('Error appending containers');
         }
     })
 
@@ -68,7 +78,7 @@ app
 
         try {
             //WILL REPLACE EVAL SOON
-            const message = await eval(`DockerModules.${reqType}Container(containerName)`);
+            let message = await eval(`DockerModules.${reqType}Container(containerName)`);
 
             res.status(200).json({ message: message });
         } catch (error) {

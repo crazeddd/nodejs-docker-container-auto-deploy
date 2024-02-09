@@ -1,39 +1,76 @@
 const Docker = require('dockerode');
+const fs = require("fs");
 var docker = new Docker();
+
+const containers = require('../containers.json');
 
 function makeContainer(containerName, image, port, protocol, directory, env) {
     console.log(containerName, image, port, protocol, directory, env)
+    return new Promise((resolve, reject) => {
 
-    const containerConfig = {
-        Image: image,
-        name: containerName,
-        ExposedPorts: {
-            [`${port}/${protocol}`]: {}
-        },
-        HostConfig: {
-            PortBindings: {
-                [`${port}/${protocol}`]: [{HostPort: port}] 
-            }
-        },
-        Env: [
-            env
-        ],
-    };
-
-    docker.createContainer(containerConfig, (err, container) => {
-        if (err) {
-            console.error('Error creating container:', err);
-        } else {
-            container.start((startErr) => {
-                if (startErr) {
-                    console.error('Error starting container:', startErr);
-                } else {
-                    console.log('Container created and started successfully');
+        const containerConfig = {
+            Image: image,
+            name: containerName,
+            ExposedPorts: {
+                [`${port}/${protocol}`]: {}
+            },
+            HostConfig: {
+                PortBindings: {
+                    [`${port}/${protocol}`]: [{ HostPort: port }]
                 }
-            });
-        }
-    });
+            },
+            Env: [
+                env
+            ],
+        };
+
+        console.log(containerConfig);
+
+        var container = docker.createContainer(containerConfig, (err, container) => {
+            if (err) {
+                reject(new Error('Failed to create container'));
+                console.error('Error creating container:', err);
+            } else {
+                container.start((startErr) => {
+                    if (startErr) {
+                        console.error('Error starting container:', startErr);
+                    } else {
+                        resolve('Container created and started successfully');
+                        console.log('Container created and started successfully');
+                    }
+                });
+            }
+        });
+    })
 }
+
+async function appendContainers() {
+    const containerList = await docker.listContainers({ all: true });
+    for (const containerInfo of containerList) {
+        //let cont = JSON.parse(fs.readFileSync(containers));
+        if (containerInfo.Id.toString == containers.id.toString) {
+            try {
+
+                console.log(containerInfo.Id);
+                console.log(containers.id)
+                console.log(containerInfo.Id.toString == containers.id.toString);
+
+                let container = {
+                    id: [`${containerInfo.Id}`],
+                    name: [`${containerInfo.Names}`],
+                    status: [`${containerInfo.State}`]
+                };
+                //MAKE WRITE TO JSON HERE
+
+                console.log(`Found and appended container: ${containerInfo.Names[0]}`);
+            } catch (error) {
+                console.error(`Error appending container: ${containerInfo.Names[0]}`, error);
+            }
+        } else {
+            console.error("Container already exists in database");
+        }
+    }
+};
 
 //FOR TESTING
 async function removeStoppedContainers() {
@@ -77,12 +114,13 @@ function startContainer(containerName) {
                 resolve('Successfully started container');
                 console.log(`Successfully started ${containerName}`);
             }
-        }); 
+        });
     });
 }
 
 module.exports = {
     makeContainer,
+    appendContainers,
     stopContainer,
     startContainer,
     removeStoppedContainers,
