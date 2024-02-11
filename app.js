@@ -50,7 +50,8 @@ app
         try {
             let message = await DockerModules.makeContainer(...configVars);
             await DockerModules.appendContainers();
-            res.status(500).send({message: message});
+
+            res.status(201).send({message: message});
             res.redirect('/panel');
         } catch (error) {
             res.status(500).send({message: error.message});
@@ -59,9 +60,17 @@ app
     
     .get('/append-containers', async (req, res) => {
         try {
-            await DockerModules.appendContainers();
+            let message = await DockerModules.appendContainers();
         } catch (error) {
-            res.status(500).send('Error appending containers');
+            res.status(500).send({message: error.message});
+        }
+    })
+
+    .get('/display-containers', async (req, res) => {
+        try {
+            let message = DockerModules.displayContainers();
+        } catch (error) {
+            res.status(500).send({message: error.message});
         }
     })
 

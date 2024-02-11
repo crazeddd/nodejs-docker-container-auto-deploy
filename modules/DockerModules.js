@@ -46,31 +46,58 @@ function makeContainer(containerName, image, port, protocol, directory, env) {
 
 async function appendContainers() {
     const containerList = await docker.listContainers({ all: true });
+
+    var savedContainers = [];
+    for (let i = 0; i < containers.length; i++) {
+        savedContainers.push(containers[i].id);
+    }
+
     for (const containerInfo of containerList) {
-        //let cont = JSON.parse(fs.readFileSync(containers));
-        if (containerInfo.Id.toString == containers.id.toString) {
+        if (!savedContainers.includes(containerInfo.Id)) {
             try {
 
-                console.log(containerInfo.Id);
-                console.log(containers.id)
-                console.log(containerInfo.Id.toString == containers.id.toString);
-
                 let container = {
-                    id: [`${containerInfo.Id}`],
-                    name: [`${containerInfo.Names}`],
-                    status: [`${containerInfo.State}`]
+                    id: containerInfo.Id,
+                    names: containerInfo.Names,
+                    status: containerInfo.State
                 };
-                //MAKE WRITE TO JSON HERE
+
+                containers.push(container);
+
+                fs.writeFile("containers.json", JSON.stringify(containers), err => {
+                    if (err) throw new (err);
+                });
 
                 console.log(`Found and appended container: ${containerInfo.Names[0]}`);
             } catch (error) {
                 console.error(`Error appending container: ${containerInfo.Names[0]}`, error);
+                throw new Error(`Error appending container: ${containerInfo.Names[0]}`);
             }
         } else {
             console.error("Container already exists in database");
         }
     }
 };
+
+function displayContainers() {
+    for (let container of containers) {
+        const html = `
+        <div class="container">
+           <div class="container-items">
+            <div>${container.names}</div>
+            <button class="containerReq" id="" onClick="">Edit</button>
+            <button class="containerReq stop" id="${container.id}" onClick="containerReq(this.id)">Stop</button>
+            <button class="containerReq start" id="${container.id}" onClick="containerReq(this.id)">Start</button>
+            <p id="res">Waiting for server...</p>
+           </div>
+            <div class="container-items">
+            <div id="status">${container.status}</div>
+          </div>
+        </div>`
+        
+        console.log(html)
+    }
+}
 
 //FOR TESTING
 async function removeStoppedContainers() {
@@ -121,6 +148,7 @@ function startContainer(containerName) {
 module.exports = {
     makeContainer,
     appendContainers,
+    displayContainers,
     stopContainer,
     startContainer,
     removeStoppedContainers,
