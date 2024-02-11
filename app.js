@@ -10,6 +10,7 @@ const DockerModules = require('./modules/DockerModules.js');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('pages'));
+app.set('view engine', 'pug');
 
 app
     .get('/', (req, res) => {
@@ -17,7 +18,7 @@ app
     })
 
     .get('/panel', (req, res) => {
-        res.sendFile(__dirname + '/pages/panel.html')
+        res.render(__dirname + '/pages/panel.pug')
     })
 
     .get('/create-container', async (req, res) => {
@@ -50,19 +51,20 @@ app
         try {
             let message = await DockerModules.makeContainer(...configVars);
             await DockerModules.appendContainers();
+            DockerModules.displayContainers();
 
-            res.status(201).send({message: message});
+            //res.status(201).send({ message: message });
             res.redirect('/panel');
         } catch (error) {
-            res.status(500).send({message: error.message});
+            res.status(500).send({ message: error.message });
         }
     })
-    
+
     .get('/append-containers', async (req, res) => {
         try {
             let message = await DockerModules.appendContainers();
         } catch (error) {
-            res.status(500).send({message: error.message});
+            res.status(500).send({ message: error.message });
         }
     })
 
@@ -70,7 +72,7 @@ app
         try {
             let message = DockerModules.displayContainers();
         } catch (error) {
-            res.status(500).send({message: error.message});
+            res.status(500).send({ message: error.message });
         }
     })
 

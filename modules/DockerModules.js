@@ -80,22 +80,28 @@ async function appendContainers() {
 };
 
 function displayContainers() {
+    fs.writeFile('modules/html-modules/containers.pug', '', function (err) {
+        if (err) throw err;
+        console.log('Cleared file')
+    })
+
     for (let container of containers) {
-        const html = `
-        <div class="container">
-           <div class="container-items">
-            <div>${container.names}</div>
-            <button class="containerReq" id="" onClick="">Edit</button>
-            <button class="containerReq stop" id="${container.id}" onClick="containerReq(this.id)">Stop</button>
-            <button class="containerReq start" id="${container.id}" onClick="containerReq(this.id)">Start</button>
-            <p id="res">Waiting for server...</p>
-           </div>
-            <div class="container-items">
-            <div id="status">${container.status}</div>
-          </div>
-        </div>`
-        
+        const html = '\n' + `.container
+    .container-items
+        div ${container.names}
+        button.containerReq(id='', onclick='') Edit
+        button.containerReq.stop(id='${container.id}', onclick='containerReq(this.id)') Stop
+        button.containerReq.start(id='${container.id}', onclick='containerReq(this.id)') Start
+        p#res Waiting for server...
+    .container-items
+        #status ${container.status}`
+
         console.log(html)
+
+        fs.appendFile('modules/html-modules/containers.pug', html, function (err) {
+            if (err) throw err;
+            console.log('Created containers');
+        });
     }
 }
 
