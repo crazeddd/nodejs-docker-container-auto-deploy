@@ -96,13 +96,11 @@ function displayContainers() {
     .container-items
         #status ${container.status}`
 
-        console.log(html)
-
         fs.appendFile('modules/html-modules/containers.pug', html, function (err) {
             if (err) throw err;
-            console.log('Created containers');
         });
     }
+    console.log('Succesfully displayed containers');
 }
 
 //FOR TESTING

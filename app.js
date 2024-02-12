@@ -22,7 +22,7 @@ app
     })
 
     .get('/create-container', async (req, res) => {
-        res.sendFile(__dirname + '/pages/create-container.html')
+        res.render(__dirname + '/pages/create-container.pug')
     })
 
     .post('/build-container', async (req, res) => {
