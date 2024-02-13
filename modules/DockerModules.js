@@ -89,14 +89,19 @@ async function displayContainers() {
 
         for (let container of containers) {
             const html = '\n' + `.container
-    .container-items
-        div ${container.names}
-        button.containerReq(id='', onclick='') Edit
-        button.containerReq.stop(id='${container.id}', onclick='containerReq(this.classList[1], this.id)') Stop
-        button.containerReq.start(id='${container.id}', onclick='containerReq(this.classList[1], this.id)') Start
-        p#res Waiting for server...
-    .container-items
-        #status ${container.status}`
+            .container-items
+              .name ${container.names}
+              button.containerReq(id="", onclick="") Edit
+              button.containerReq.stop(id="${container.id}",
+                onclick="containerReq(this.classList[1], this.id)"
+              ) Stop
+              button.containerReq.start(id="${container.id}",
+                onclick="containerReq(this.classList[1], this.id)"
+              ) Start
+            .container-items
+              p#res Waiting for server...
+            .container-items
+              #status `
 
             fs.appendFileSync('modules/html-modules/containers.pug', html, function (err) {
                 if (err) {

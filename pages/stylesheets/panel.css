@@ -8,9 +8,18 @@
     color: rgba(var(--text));
   }
   
+  .containerReq {
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border: solid rgba(var(--text), 0.2) 1px;
+    background: none;
+    color: rgba(var(--text));
+  }
+  
   .container {
     display: flex;
-    background-color: rgba(var(--background_light), 1);
+    background: none;
+    border: solid rgba(var(--text), 0.2) 1px;
     border-radius: 0.5rem;
     justify-content: space-between;
   }
@@ -18,13 +27,9 @@
   .container-items {
     display: flex;
     flex-direction: row;
-    padding: 1rem;
+    padding: 1rem 2rem 1rem 1rem;
     gap: 1rem;
     align-items: center;
-  }
-  
-  .container.vertical {
-    flex-direction: column;
   }
   
   .container p {
@@ -40,13 +45,6 @@
     height: 100%;
   }
   
-  .containers.center {
-    align-items: center;
-    justify-content: center;
-    width: 25rem;
-    height: 25rem;
-  }
-  
   #status {
     height: 0.5rem;
     width: 0.5rem;
@@ -54,17 +52,11 @@
     border-radius: 50%;
   }
   
-  #port {
-    flex-basis: 90%;
-    width: 90%;
+  .name {
+    font-size: 0.9rem;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background: rgba(var(--background_light), 0.8);
+    color: rgba(var(--text));
   }
   
-  #protocol {
-    flex-basis: 10%;
-    width: 10%;
-  }
-  
-  .form-split {
-    display: flex;
-    width: 100%;
-  }

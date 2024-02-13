@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Rubik+Mono+One|Azeret+Mono:400");
+@import url("https://fonts.googleapis.com/css?family=Azeret%20Mono:700|Roboto%20Mono:400");
 
 :root {
   --text: 255, 255, 255;
@@ -25,48 +25,46 @@ body {
   background: rgba(var(--background), 1);
 }
 
+body {
+  font-family: "Roboto Mono";
+  font-weight: 400;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5 {
-  font-family: "Rubik Mono One";
+  font-family: "Azeret Mono";
   font-weight: 700;
 }
 
 html {
   font-size: 100%;
-}
-
-/* 16px */
+} /* 16px */
 
 h1 {
-  font-size: 4.21rem;
+  font-size: 4.21rem; /* 67.36px */
 }
 
 h2 {
-  font-size: 3.158rem;
+  font-size: 3.158rem; /* 50.56px */
 }
 
 h3 {
-  font-size: 2.369rem;
+  font-size: 2.369rem; /* 37.92px */
 }
 
 h4 {
-  font-size: 1.777rem;
+  font-size: 1.777rem; /* 28.48px */
 }
 
 h5 {
-  font-size: 1.333rem;
+  font-size: 1.333rem; /* 21.28px */
 }
 
 small {
-  color: rgba(var(--text), 0.8);
-  font-size: 0.75rem;
-}
-
-p {
-  font-size: 0.8rem;
+  font-size: 0.75rem; /* 12px */
 }
 
 a {
@@ -84,9 +82,11 @@ h1 mark {
   border-radius: 1rem;
   padding: 0.5rem;
   color: rgba(var(--background), 1);
-  background: -webkit-linear-gradient(180deg,
-      rgba(var(--primary), 1),
-      rgba(var(--accent), 1));
+  background: -webkit-linear-gradient(
+    180deg,
+    rgba(var(--primary), 1),
+    rgba(var(--accent), 1)
+  );
 }
 
 hr {
@@ -152,6 +152,7 @@ pre {
 
 .main {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -160,14 +161,23 @@ pre {
 
 .nav-bar {
   display: flex;
-  flex-direction: column;
-  padding: 1rem 1vw 1rem 1vw;
+  padding: 1rem;
   justify-content: space-between;
   text-align: left;
-  height: 100vh;
   background-color: rgba(var(--background), 1);
-  border: 1px solid rgba(var(--text), 0.2);
-  z-index: 10;
+  outline: 1px solid rgba(var(--text), 0.2);
+  z-index: 1;
+}
+
+.nav-bar.side {
+  flex-direction: column;
+  height: 100vh;
+  z-index: 2;
+}
+
+.nav-bar.top {
+  flex-direction: row;
+  width: 100%;
 }
 
 .nav-links {
@@ -188,12 +198,4 @@ pre {
   fill: rgba(var(--text), 1);
   height: 1.5rem;
   width: 1.5rem;
-}
-
-.containerReq {
-  border-radius: 0.25rem;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  border: solid rgba(var(--text), 0.2) 1px;
-  background: none;
-  color: rgba(var(--text));
 }
