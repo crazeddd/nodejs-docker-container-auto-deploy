@@ -1,8 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const { exec } = require('child_process');
-const { error } = require('console');
 const port = 3000;
 
 const DockerModules = require('./modules/DockerModules.js');
@@ -14,15 +12,20 @@ app.set('view engine', 'pug');
 
 app
     .get('/', (req, res) => {
-        res.sendFile(__dirname + '/index.html');
+        res.render(__dirname + '/index.pug');
     })
 
-    .get('/panel', (req, res) => {
-        res.render(__dirname + '/pages/panel.pug')
+    .get('/panel', async (req, res) => {
+        try {
+            await DockerModules.displayContainers();
+            res.render(__dirname + '/pages/panel.pug');
+        } catch (error) {
+            console.error(error);
+        }
     })
 
     .get('/create-container', async (req, res) => {
-        res.render(__dirname + '/pages/create-container.pug')
+        res.render(__dirname + '/pages/create-container.pug');
     })
 
     .post('/build-container', async (req, res) => {
@@ -51,7 +54,6 @@ app
         try {
             let message = await DockerModules.makeContainer(...configVars);
             await DockerModules.appendContainers();
-            DockerModules.displayContainers();
 
             //res.status(201).send({ message: message });
             res.redirect('/panel');
@@ -68,28 +70,28 @@ app
         }
     })
 
-    .get('/display-containers', async (req, res) => {
+    /*.get('/display-containers', async (req, res) => {
         try {
             let message = DockerModules.displayContainers();
         } catch (error) {
             res.status(500).send({ message: error.message });
         }
-    })
+    })*/
 
     .post('/containerReq', async (req, res) => {
-        const containerName = req.body.id,
+        const id = req.body.id,
             reqType = req.body.type;
 
-        if (!containerName) {
+        if (!id) {
             res.json({ message: "Container name required" });
             return;
         }
 
-        console.log(`New inbound ${reqType} request from ${containerName}`);
+        console.log(`New inbound ${reqType} request from ${id}`);
 
         try {
             //WILL REPLACE EVAL SOON
-            let message = await eval(`DockerModules.${reqType}Container(containerName)`);
+            let message = await eval(`DockerModules.${reqType}Container(id)`);
 
             res.status(200).json({ message: message });
         } catch (error) {

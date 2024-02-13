@@ -1,12 +1,11 @@
-function containerReq(reqType) {
-    const containerName = document.getElementById('containerName').value;
+function containerReq(reqType, id) {
     var status = document.getElementById("status");
     var res = document.getElementById("res");
 
-    console.log(`Passing ${reqType} request for ${containerName}...`);
+    console.log(`Passing ${reqType} request for ${id}...`);
 
     const data = {
-        id: containerName,
+        id: id,
         type: reqType,
     }
 

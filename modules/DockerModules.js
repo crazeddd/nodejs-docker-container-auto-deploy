@@ -53,6 +53,10 @@ async function appendContainers() {
     }
 
     for (const containerInfo of containerList) {
+        console.log(savedContainers.includes(containerInfo.Id))
+        for (let i = 0; i < containers.length; i++) {
+            containers.filter(containers[i].id !== containerInfo);
+        }
         if (!savedContainers.includes(containerInfo.Id)) {
             try {
 
@@ -77,30 +81,36 @@ async function appendContainers() {
             console.error("Container already exists in database");
         }
     }
-};
+}
 
-function displayContainers() {
-    fs.writeFile('modules/html-modules/containers.pug', '', function (err) {
-        if (err) throw err;
-        console.log('Cleared file')
-    })
+async function displayContainers() {
+    try {
+        fs.writeFileSync('modules/html-modules/containers.pug', '');
 
-    for (let container of containers) {
-        const html = '\n' + `.container
+        for (let container of containers) {
+            const html = '\n' + `.container
     .container-items
         div ${container.names}
         button.containerReq(id='', onclick='') Edit
-        button.containerReq.stop(id='${container.id}', onclick='containerReq(this.id)') Stop
-        button.containerReq.start(id='${container.id}', onclick='containerReq(this.id)') Start
+        button.containerReq.stop(id='${container.id}', onclick='containerReq(this.classList[1], this.id)') Stop
+        button.containerReq.start(id='${container.id}', onclick='containerReq(this.classList[1], this.id)') Start
         p#res Waiting for server...
     .container-items
         #status ${container.status}`
 
-        fs.appendFile('modules/html-modules/containers.pug', html, function (err) {
-            if (err) throw err;
-        });
+            fs.appendFileSync('modules/html-modules/containers.pug', html, function (err) {
+                if (err) {
+                    console.error('Error appending container:', err);
+                    reject(new Error('Could not append container'));
+                } else {
+                    console.log('Appended container');
+                }
+            });
+        }
+        console.log('Succesfully displayed containers');
+    } catch (error) {
+        console.error('Could not display containers', error);
     }
-    console.log('Succesfully displayed containers');
 }
 
 //FOR TESTING
@@ -119,31 +129,31 @@ async function removeStoppedContainers() {
     }
 }
 
-function stopContainer(containerName) {
+function stopContainer(containerId) {
     return new Promise((resolve, reject) => {
-        const container = docker.getContainer(containerName);
+        const container = docker.getContainer(containerId);
         container.stop((err) => {
             if (err) {
                 reject(new Error('Failed to stop container'));
-                console.error(`Error when stopping ${containerName}`)
+                console.error(`Error when stopping ${containerId}`)
             } else {
                 resolve('Successfully stopped container');
-                console.log(`Successfully stopped ${containerName}`);
+                console.log(`Successfully stopped ${containerId}`);
             }
         });
     });
 }
 
-function startContainer(containerName) {
+function startContainer(containerId) {
     return new Promise((resolve, reject) => {
-        const container = docker.getContainer(containerName);
+        const container = docker.getContainer(containerId);
         container.start((err) => {
             if (err) {
                 reject(new Error('Failed to start container'));
-                console.error(`Error when starting ${containerName}`)
+                console.error(`Error when starting ${containerId}`)
             } else {
                 resolve('Successfully started container');
-                console.log(`Successfully started ${containerName}`);
+                console.log(`Successfully started ${containerId}`);
             }
         });
     });
