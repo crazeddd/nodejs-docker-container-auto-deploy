@@ -1,6 +1,8 @@
 const Docker = require('dockerode');
-const fs = require("fs");
-var docker = new Docker();
+const fs = require('fs');
+const dockerSocketPath = require('./checkOs.js')
+
+var docker = new Docker({socketPath: dockerSocketPath});
 
 const containers = require('../containers.json');
 
@@ -62,7 +64,9 @@ async function appendContainers() {
 
                 let container = {
                     id: containerInfo.Id,
+                    image: containerInfo.Image,
                     names: containerInfo.Names,
+                    //dir: containerInfo.Volumes,
                     status: containerInfo.State
                 };
 
@@ -91,17 +95,21 @@ async function displayContainers() {
             const html = '\n' + `.container
             .container-items
               .name ${container.names}
-              button.containerReq(id="", onclick="") Edit
               button.containerReq.stop(id="${container.id}",
                 onclick="containerReq(this.classList[1], this.id)"
               ) Stop
               button.containerReq.start(id="${container.id}",
                 onclick="containerReq(this.classList[1], this.id)"
               ) Start
+            .container-items.image
+              p#res ${container.image}
+            .container-items.directory
+              p#res ${container.dir}
             .container-items
-              p#res Waiting for server...
+              p#res RAM: 78%
+              p CPU: 56%
             .container-items
-              #status `
+              .status.${container.status}`
 
             fs.appendFileSync('modules/html-modules/containers.pug', html, function (err) {
                 if (err) {

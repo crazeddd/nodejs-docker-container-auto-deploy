@@ -8,28 +8,41 @@
     color: rgba(var(--text));
   }
   
-  .containerReq {
-    border-radius: 0.25rem;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border: solid rgba(var(--text), 0.2) 1px;
-    background: none;
-    color: rgba(var(--text));
-  }
-  
   .container {
-    display: flex;
-    background: none;
-    border: solid rgba(var(--text), 0.2) 1px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30% 23% 23% 23% 5%;
+    background: rgba(var(--background), 1);
+    border: solid rgba(var(--outline), 0.2) 1px;
     border-radius: 0.5rem;
-    justify-content: space-between;
+    justify-items: start;
+    padding: 1rem 2rem 1rem 1rem;
   }
   
   .container-items {
     display: flex;
     flex-direction: row;
-    padding: 1rem 2rem 1rem 1rem;
     gap: 1rem;
     align-items: center;
+    overflow-x: scroll;
+    text-wrap: nowrap;
+  }
+  
+  .container-items::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .container-items.directory {
+    color: rgba(var(--text), 0.8);
+    width: 80%;
+    background: rgba(var(--background_dark), 0.5);
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    align-self: center;
+  }
+  
+  .container-items.image {
+    width: 80%;
   }
   
   .container p {
@@ -39,17 +52,28 @@
   .containers {
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
     gap: 1rem;
     padding: 1rem;
     width: 100%;
     height: 100%;
   }
   
-  #status {
+  .status {
+    margin: 0.5rem;
     height: 0.5rem;
     width: 0.5rem;
-    background: red;
     border-radius: 50%;
+  }
+  
+  .status.on {
+    background: var(--on);
+    box-shadow: 0px 0px 10px 0px var(--on);
+  }
+  
+  .status.off {
+    background: var(--off);
+    box-shadow: 0px 0px 10px 0px var(--off);
   }
   
   .name {
@@ -58,5 +82,14 @@
     padding: 0.5rem 1rem 0.5rem 1rem;
     background: rgba(var(--background_light), 0.8);
     color: rgba(var(--text));
+  }
+  
+  @media only screen and (max-width: 1100px) {
+    .container {
+      grid-template-columns: none;
+    }
+    .container-items.ports {
+      background: none;
+    }
   }
   
