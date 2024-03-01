@@ -1,1 +1,10 @@
-[{"id":"bec1eb30c0800ab8fdce05157209ae922b6733277a5a5b97c53d67c6324c70c1","names":["/contain"],"status":"exited"},{"id":"d284cbc22e325b2f4221bfa66696e37a06e499e9e6cb1518dd51ae29fc4334a5","names":["/containe"],"status":"created"},{"id":"22fb6ce7e59d6597b99b0f869207a2efd8b4f3f547a302e9bb2bae5e3d980177","names":["/la"],"status":"created"},{"id":"71a93d64cf298d5bc4ed4354bb818a4a55e6ff375999877fb85313979d6c53d4","names":["/con"],"status":"created"}]
+[
+    {
+        "id": "395cee666700ca177b9b39d0cd884a04359140e90bd59f750d75bd179f8f65ea",
+        "image": "itzg/minecraft-server",
+        "names": [
+            "/abc"
+        ],
+        "status": "running"
+    }
+]

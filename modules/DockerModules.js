@@ -5,7 +5,6 @@ var docker = new Docker();
 const containers = require('../containers.json');
 
 function makeContainer(containerName, image, port, protocol, directory, env) {
-    console.log(containerName, image, port, protocol, directory, env)
     return new Promise((resolve, reject) => {
 
         const containerConfig = {
@@ -53,7 +52,6 @@ async function appendContainers() {
     }
 
     for (const containerInfo of containerList) {
-        console.log(savedContainers.includes(containerInfo.Id))
         for (let i = 0; i < containers.length; i++) {
             containers.filter(containers[i].id !== containerInfo);
         }
@@ -62,6 +60,7 @@ async function appendContainers() {
 
                 let container = {
                     id: containerInfo.Id,
+                    image: containerInfo.Image,
                     names: containerInfo.Names,
                     status: containerInfo.State
                 };
@@ -88,20 +87,25 @@ async function displayContainers() {
         fs.writeFileSync('modules/html-modules/containers.pug', '');
 
         for (let container of containers) {
-            const html = '\n' + `.container
-            .container-items
-              .name ${container.names}
-              button.containerReq(id="", onclick="") Edit
+            const html = '\n' + `.container.${container.id}
+            .container-items.name
+              p.name-cont ${container.names}
               button.containerReq.stop(id="${container.id}",
                 onclick="containerReq(this.classList[1], this.id)"
-              ) Stop
-              button.containerReq.start(id="${container.id}",
-                onclick="containerReq(this.classList[1], this.id)"
-              ) Start
+              )
+                svg.run(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 384 512")
+                  path(
+                    d="M48 64C21.5 64 0 85.5 0 112V400c0 26.5 21.5 48 48 48H80c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm192 0c-26.5 0-48 21.5-48 48V400c0 26.5 21.5 48 48 48h32c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H240z"
+                  )
+            .container-items.image
+              p ${container.image}
+            .container-items.directory
+              p ${container.dir}
+            .container-items.usage
+              p RAM: 15%
+              p CPU: 23%
             .container-items
-              p#res Waiting for server...
-            .container-items
-              #status `
+              .status.${container.status}`
 
             fs.appendFileSync('modules/html-modules/containers.pug', html, function (err) {
                 if (err) {
@@ -142,6 +146,7 @@ function stopContainer(containerId) {
                 reject(new Error('Failed to stop container'));
                 console.error(`Error when stopping ${containerId}`)
             } else {
+                containerId
                 resolve('Successfully stopped container');
                 console.log(`Successfully stopped ${containerId}`);
             }

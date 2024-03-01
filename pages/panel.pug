@@ -5,7 +5,14 @@ html
     link(rel="stylesheet", href="stylesheets/panel.css")
   body
     .nav-bar.side
-      .nav-links
+      .nav-links.side
+        a(href="/home")
+          p.inactive
+            svg(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 576 512")
+              //!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
+              path(
+                d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"
+              )
         a(href="/panel")
           p.active
             svg(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 512 512")
@@ -21,27 +28,25 @@ html
                 d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"
               )
       button.nav-button
-        svg.menu(
-          xmlns="http://www.w3.org/2000/svg",
-          height="16",
-          width="16",
-          viewBox="0 0 512 512"
-        )
-          // !Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.
+        svg.fill(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 448 512") 
+          // Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
           path(
-            d="M464 256A208 208 0 1 0 48 256a208 208 0 1 0 416 0zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm306.7 69.1L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"
+            d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
           )
   .main
     .nav-bar.top
-      .nav-links
-        p.active NODEJS_SERVER_PANNEL
-      .nav-links
-        a(href="/more")
-          p.active
-            svg(xmlns="http://www.w3.org/2000/svg", viewBox="0 0 448 512")
-              // !Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.
-              path(
-                d="M8 256a56 56 0 1 1 112 0A56 56 0 1 1 8 256zm160 0a56 56 0 1 1 112 0 56 56 0 1 1 -112 0zm216-56a56 56 0 1 1 0 112 56 56 0 1 1 0-112z"
-              )
+      .nav-links.top
+        p Your Containers
     .containers
+      .container
+        .container-items
+          p Name
+        .container-items
+          p Image
+        .container-items
+          p Directory
+        .container-items
+          p Usage
+        .container-items
+          p \o/
       include ../modules/html-modules/containers.pug
