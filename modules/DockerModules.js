@@ -87,6 +87,15 @@ async function displayContainers() {
         fs.writeFileSync('modules/html-modules/containers.pug', '');
 
         for (let container of containers) {
+
+            var containerInfo = docker.getContainer(container.id)
+            //cpuMax = ,
+            //cpuMin = ,
+            //ramMax = ,
+            //ramMin = ,
+            ramUsage = 1;
+            cpuUsage = 1;
+
             const html = '\n' + `.container.${container.id}
             .container-items.name
               p.name-cont ${container.names}
@@ -102,8 +111,8 @@ async function displayContainers() {
             .container-items.directory
               p ${container.dir}
             .container-items.usage
-              p RAM: 15%
-              p CPU: 23%
+              p RAM: ${ramUsage}
+              p CPU: ${cpuUsage}
             .container-items
               .status.${container.status}`
 
@@ -146,7 +155,6 @@ function stopContainer(containerId) {
                 reject(new Error('Failed to stop container'));
                 console.error(`Error when stopping ${containerId}`)
             } else {
-                containerId
                 resolve('Successfully stopped container');
                 console.log(`Successfully stopped ${containerId}`);
             }

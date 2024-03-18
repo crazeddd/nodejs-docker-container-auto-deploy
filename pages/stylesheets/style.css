@@ -186,7 +186,7 @@ pre {
 .nav-bar.top {
   display: grid;
   width: 100%;
-  padding: 1rem 0rem 1rem 1rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;
   grid-template-columns: 30% 21.66% 21.66% 21.66% 5%;
 }
 

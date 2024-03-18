@@ -80,14 +80,6 @@
   color: rgba(var(--text));
 }
 
-.name:after {
-  content: "";
-  width: 1rem;
-  height: 1rem;
-  background: none;
-  display: none;
-}
-
 .run {
   fill: rgba(var(--text), 1);
   height: 0.6rem;
