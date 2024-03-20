@@ -36,12 +36,12 @@ function makeContainer(containerName, image, port, protocol, directory, env) {
                     } else {
                         resolve('Container created and started successfully');
                         console.log('Container created and started successfully');
-                    }
+                    };
                 });
-            }
+            };
         });
-    })
-}
+    });
+};
 
 async function appendContainers() {
     const containerList = await docker.listContainers({ all: true });
@@ -53,7 +53,7 @@ async function appendContainers() {
 
     for (const containerInfo of containerList) {
         for (let i = 0; i < containers.length; i++) {
-            containers.filter(containers[i].id !== containerInfo);
+            containers.filter((container) => containers[i].id !== containerInfo);
         }
         if (!savedContainers.includes(containerInfo.Id)) {
             try {
@@ -78,9 +78,9 @@ async function appendContainers() {
             }
         } else {
             console.error("Container already exists in database");
-        }
-    }
-}
+        };
+    };
+};
 
 async function displayContainers() {
     try {

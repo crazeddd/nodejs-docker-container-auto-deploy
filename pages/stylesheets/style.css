@@ -225,3 +225,52 @@ pre {
   background: none;
   color: rgba(var(--text));
 }
+
+/*Toasts*/
+toasts {
+  position: fixed;
+  z-index: 100;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+toast {
+  display: block;
+  width: 18rem;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+}
+
+toast.success {
+  background: rgba(var(--on), 0.2);
+  border: 1px solid rgba(var(--on), 0.2);
+}
+
+toast.error {
+  background: rgba(var(--off), 0.2);
+  border: 1px solid rgba(var(--off), 0.2);
+}
+
+toast.info {
+  background: rgba(var(--text), 0.2);
+  border: 1px solid rgba(var(--text), 0.2);
+}
+
+toast.accented {
+  background: linear-gradient(
+    90deg,
+    rgba(var(--accent), 0.2) 0%,
+    rgba(238, 53, 255, 0.2) 100%
+  );
+  border: 1px solid rgba(var(--accent), 0.2);
+}
+
+toast small {
+  color: rgba(var(--text), 0.6);
+}

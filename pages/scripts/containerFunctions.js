@@ -1,5 +1,7 @@
+import * as alerts from 'alerts.js';
+
 function containerReq(reqType, id) {
-    var status = document.getElementById("status");
+    //var status = document.getElementById("status");
     var res = document.getElementById("res");
 
     console.log(`Passing ${reqType} request for ${id}...`);
@@ -17,7 +19,8 @@ function containerReq(reqType, id) {
 
         .then(res => res.json())
         .then(data => {
-            res.textContent = data.message;
+            res = data.message;
+            alerts.createToast(res);
             console.log(data.message);
         });
 

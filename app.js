@@ -17,6 +17,7 @@ app
 
     .get('/panel', async (req, res) => {
         try {
+            await DockerModules.appendContainers();
             await DockerModules.displayContainers();
             res.render(__dirname + '/pages/panel.pug');
         } catch (error) {
