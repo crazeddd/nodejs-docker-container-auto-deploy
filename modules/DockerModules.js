@@ -1,8 +1,8 @@
 const Docker = require('dockerode');
 const fs = require('fs');
-const dockerSocketPath = require('./checkOs.js')
+//const dockerSocketPath = require('./checkOs.js')
 
-var docker = new Docker({socketPath: dockerSocketPath});
+var docker = new Docker();
 
 const containers = require('../containers.json');
 
