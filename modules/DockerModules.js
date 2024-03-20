@@ -1,6 +1,8 @@
 const Docker = require('dockerode');
-const fs = require("fs");
-var docker = new Docker();
+const fs = require('fs');
+const dockerSocketPath = require('./checkOs.js')
+
+var docker = new Docker({socketPath: dockerSocketPath});
 
 const containers = require('../containers.json');
 
@@ -62,6 +64,7 @@ async function appendContainers() {
                     id: containerInfo.Id,
                     image: containerInfo.Image,
                     names: containerInfo.Names,
+                    //dir: containerInfo.Volumes,
                     status: containerInfo.State
                 };
 
