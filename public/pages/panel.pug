@@ -1,0 +1,23 @@
+html
+  head
+    title Manage Container
+    script(type="application/javascript", src="scripts/containerFunctions.js")
+    link(rel="stylesheet", href="../stylesheets/panel.css")
+  body
+    //toasts
+    include ../views/navbar-side.pug
+  .main
+    include ../views/navbar-top.pug
+    .containers
+      .container
+        .container-items
+          p Name
+        .container-items
+          p Image
+        .container-items
+          p Directory
+        .container-items
+          p Usage
+        .container-items
+          p \o/
+      include ../views/containers.pug

@@ -8,7 +8,6 @@ const containers = require('../containers.json');
 
 function makeContainer(containerName, image, port, protocol, directory, env) {
     return new Promise((resolve, reject) => {
-
         const containerConfig = {
             Image: image,
             name: containerName,
@@ -30,11 +29,11 @@ function makeContainer(containerName, image, port, protocol, directory, env) {
         var container = docker.createContainer(containerConfig, (err, container) => {
             if (err) {
                 reject(new Error('Failed to create container'));
-                console.error('Error creating container:', err);
+                console.error('Error creating container: ', err);
             } else {
                 container.start((startErr) => {
                     if (startErr) {
-                        console.error('Error starting container:', startErr);
+                        console.error('Error starting container: ', startErr);
                     } else {
                         resolve('Container created and started successfully');
                         console.log('Container created and started successfully');
@@ -75,19 +74,17 @@ async function appendContainers() {
                 });
 
                 console.log(`Found and appended container: ${containerInfo.Names[0]}`);
-            } catch (error) {
-                console.error(`Error appending container: ${containerInfo.Names[0]}`, error);
+            } catch (err) {
+                console.error(`Error appending container: ${containerInfo.Names[0]}`, err);
                 throw new Error(`Error appending container: ${containerInfo.Names[0]}`);
             }
-        } else {
-            console.error("Container already exists in database");
-        };
+        }
     };
 };
 
 async function displayContainers() {
     try {
-        fs.writeFileSync('modules/html-modules/containers.pug', '');
+        fs.writeFileSync('public/views/containers.pug', '');
 
         for (let container of containers) {
 
@@ -119,7 +116,7 @@ async function displayContainers() {
             .container-items
               .status.${container.status}`
 
-            fs.appendFileSync('modules/html-modules/containers.pug', html, function (err) {
+            fs.appendFileSync('public/views/containers.pug', html, function (err) {
                 if (err) {
                     console.error('Error appending container:', err);
                     reject(new Error('Could not append container'));
@@ -130,7 +127,7 @@ async function displayContainers() {
         }
         console.log('Succesfully displayed containers');
     } catch (error) {
-        console.error('Could not display containers', error);
+        console.error('Could not display containers: ', error);
     }
 }
 
@@ -143,8 +140,8 @@ async function removeStoppedContainers() {
             try {
                 await container.remove();
                 console.log(`Removed container: ${containerInfo.Names[0]}`);
-            } catch (error) {
-                console.error(`Error removing container: ${containerInfo.Names[0]}`, error);
+            } catch (err) {
+                console.error(`Error removing container: ${containerInfo.Names[0]}`, err);
             }
         }
     }

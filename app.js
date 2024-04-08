@@ -7,19 +7,19 @@ const DockerModules = require('./modules/DockerModules.js');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static('pages'));
+app.use(express.static('public'));
 app.set('view engine', 'pug');
 
 app
     .get('/', (req, res) => {
-        res.render(__dirname + '/index.pug');
+        res.render(__dirname + '/public/pages/index.pug');
     })
 
     .get('/panel', async (req, res) => {
         try {
             await DockerModules.appendContainers();
             await DockerModules.displayContainers();
-            res.render(__dirname + '/pages/panel.pug');
+            res.render(__dirname + '/public/pages/panel.pug');
         } catch (error) {
             console.error(error);
         }
