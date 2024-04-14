@@ -17,14 +17,13 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-  origin: 'https://solid-pancake-57qrww64ggf4w44.github.dev',
-  methods: ['GET', 'POST', 'PUT'], 
-  credentials: true 
+  origin: 'http://localhost:3000',
+  methods: ['GET', 'POST', 'PUT'] 
 }));
 
 app.use('/', indexRouter);

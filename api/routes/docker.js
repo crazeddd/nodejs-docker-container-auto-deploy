@@ -3,7 +3,7 @@ var router = express.Router();
 
 const dockerRoutes = require('../controllers/docker-controller.js')
 
-router.post('/stop', dockerRoutes.stopContainer)
+router.post('/stop', dockerRoutes.stopContainer);
 
 //router.post('/start', dockerRoutes.startContainer)
 

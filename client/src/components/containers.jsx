@@ -6,19 +6,20 @@ function Containers() {
   const containerIdInput = document.getElementById("containerId");
 
   function stopContainer() {
-    var containerId = containerIdInput.textContent;
-
-    fetch('https://solid-pancake-57qrww64ggf4w44.github.dev/docker/stop', {
-      method: 'POST',
-      body: containerId,
+    let data = containerIdInput.value;
+    let url = "http://localhost:8080/docker/stop";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: data
+      })
     })
-    .then((response) => {
-      console.log("response.headers =", response.headers);
-      return response.blob();
-    })
-    .then(data => {
-      console.log(data);
-    });
+    .then((res) => res.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
   };
 
   return (
