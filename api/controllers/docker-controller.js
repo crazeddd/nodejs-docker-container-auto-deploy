@@ -2,16 +2,16 @@ const Docker = require('dockerode');
 const fs = require('fs');
 //const dockerSocketPath = require('./checkOs.js')
 
-const containers = require('../containers.json');
+//const containers = require('../containers.json');
 
 var docker = new Docker();
 
 exports.stopContainer = async (req, res) => {
-    var containerId = req.body.id;
-    const container = docker.getContainer(containerId);
+    let containerId = req.body.id;
+    let container = docker.getContainer(containerId);
     container.stop((err) => {
         if (err) {
-            res.json(`Failed to stop container ${containerId}`);
+            err(500).json(`Failed to stop container ${containerId}`);
             console.error(`Error when stopping ${containerId}`);
         } else {
             res.json(`Successfully stopped container ${containerId}`);
@@ -21,11 +21,11 @@ exports.stopContainer = async (req, res) => {
 }
 
 exports.startContainer = async (req, res) => {
-    var containerId = req.body.id;
-    const container = docker.getContainer(containerId);
+    let containerId = req.body.id;
+    let container = docker.getContainer(containerId);
     container.start((err) => {
         if (err) {
-            res.json(`Failed to start container ${containerId}`);
+            err(500).json(`Failed to start container ${containerId}`);
             console.error(`Error when starting ${containerId}`)
         } else {
             res.json(`Successfully started container ${containerId}`);
