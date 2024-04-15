@@ -18,8 +18,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
-  origin: 'https://solid-pancake-57qrww64ggf4w44-3000.app.github.dev',
-  methods: ['GET', 'POST', 'PUT'] 
+  origin: ['https://solid-pancake-57qrww64ggf4w44-3000.app.github.dev', 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT']
 }));
 
 app.use('/', indexRouter);

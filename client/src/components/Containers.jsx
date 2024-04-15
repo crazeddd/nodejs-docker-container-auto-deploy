@@ -1,21 +1,20 @@
 //import { useState } from 'react'
 
 function Containers() {
-  //const [count, setCount] = useState(0)
+  //const [count, setCount] = useState(0);
 
   const containerIdInput = document.getElementById("containerId");
 
-  const host = "https://solid-pancake-57qrww64ggf4w44-8080.app.github.dev"
-
   function stopContainer() {
     let data = containerIdInput.value;
-    let url = `${host}/docker/stop`;
+    let url = `${process.env.API_HOST}/docker/stop`;
 
     fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      mode: 'cors',
       body: JSON.stringify({
         id: data
       })
@@ -33,4 +32,3 @@ function Containers() {
 };
 
 export default Containers;
-
