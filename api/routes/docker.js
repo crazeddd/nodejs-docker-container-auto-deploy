@@ -5,6 +5,8 @@ const dockerRoutes = require('../controllers/docker-controller.js')
 
 router.post('/stop', dockerRoutes.stopContainer);
 
-//router.post('/start', dockerRoutes.startContainer)
+router.post('/start', dockerRoutes.startContainer);
+
+router.post('/build-container', dockerRoutes.buildContainer);
 
 module.exports = router;

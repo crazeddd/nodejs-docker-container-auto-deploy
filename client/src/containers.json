@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Wooom",
+        "image": "itzg/minecraft-server",
+        "status": "exited"
+    },
+    {
+        "name": "Wooom2",
+        "image": "itzg/minecraft-server",
+        "status": "exited"
+    },
+    {
+        "name": "Wooom3",
+        "image": "itzg/minecraft-server",
+        "status": "created"
+    }
+]

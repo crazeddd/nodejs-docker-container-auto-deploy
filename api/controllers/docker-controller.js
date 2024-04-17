@@ -4,17 +4,17 @@ const fs = require('fs');
 
 //const containers = require('../containers.json');
 
-var docker = new Docker();
+var docker = new Docker({ socketPath: '//./pipe/docker_engine' });
 
 exports.stopContainer = async (req, res) => {
     let containerId = req.body.id;
     let container = docker.getContainer(containerId);
     container.stop((err) => {
         if (err) {
-            err(500).json(`Failed to stop container ${containerId}`);
-            console.error(`Error when stopping ${containerId}`);
+            res.status(500).json(`Failed to stop container ${containerId}`);
+            console.error(`Error when stopping ${containerId} (${err})`);
         } else {
-            res.json(`Successfully stopped container ${containerId}`);
+            res.status(200).json(`Successfully stopped container ${containerId}`);
             console.log(`Successfully stopped ${containerId}`);
         }
     });
@@ -25,54 +25,57 @@ exports.startContainer = async (req, res) => {
     let container = docker.getContainer(containerId);
     container.start((err) => {
         if (err) {
-            err(500).json(`Failed to start container ${containerId}`);
-            console.error(`Error when starting ${containerId}`)
+            res.status(500).json(`Failed to start container ${containerId}`);
+            console.error(`Error when starting ${containerId} (${err})`)
         } else {
-            res.json(`Successfully started container ${containerId}`);
+            res.status(200).json(`Successfully started container ${containerId}`);
             console.log(`Successfully started ${containerId}`);
         }
     });
 }
 
-function makeContainer(containerName, image, port, protocol, directory, env) {
-    return new Promise((resolve, reject) => {
-        const containerConfig = {
-            Image: image,
-            name: containerName,
-            ExposedPorts: {
-                [`${port}/${protocol}`]: {}
-            },
-            HostConfig: {
-                PortBindings: {
-                    [`${port}/${protocol}`]: [{ HostPort: port }]
-                }
-            },
-            Env: [
-                env
-            ],
+exports.buildContainer = async (req, res) => {
+    for (let input in req.body) {
+        if (input == null) {
+            return res.status(500).json('Please fill out all the inputs');
+        }
+    }
+    const containerConfig = {
+        Image: req.body.image,
+        name: req.body.name,
+        ExposedPorts: {
+            [`${req.body.port}/${req.body.protocol}`]: {}
+        },
+        HostConfig: {
+            PortBindings: {
+                [`${req.body.port}/${req.body.protocol}`]: [{ HostPort: req.body.port }]
+            }
+        },
+        Env: [
+            req.body.env
+        ],
+    };
+
+    console.log(containerConfig);
+
+    docker.createContainer(containerConfig, (err, container) => {
+        if (err) {
+            res.status(500).json(`Failed to create container`);
+            console.error('Error creating container: ', err);
+        } else {
+            container.start((startErr) => {
+                if (startErr) {
+                    console.error('Error starting container: ', startErr);
+                } else {
+                    res.status(200).json(`Container ${container} created and started successfully!`);
+                    console.log(`Container ${container} created and started successfully!`);
+                };
+            });
         };
-
-        console.log(containerConfig);
-
-        var container = docker.createContainer(containerConfig, (err, container) => {
-            if (err) {
-                reject(new Error('Failed to create container'));
-                console.error('Error creating container: ', err);
-            } else {
-                container.start((startErr) => {
-                    if (startErr) {
-                        console.error('Error starting container: ', startErr);
-                    } else {
-                        resolve('Container created and started successfully');
-                        console.log('Container created and started successfully');
-                    };
-                });
-            };
-        });
     });
 };
 
-async function appendContainers() {
+exports.appendContainers = async (res, req) => {
     const containerList = await docker.listContainers({ all: true });
 
     var savedContainers = [];
@@ -86,7 +89,6 @@ async function appendContainers() {
         }
         if (!savedContainers.includes(containerInfo.Id)) {
             try {
-
                 let container = {
                     id: containerInfo.Id,
                     image: containerInfo.Image,
@@ -110,7 +112,7 @@ async function appendContainers() {
     };
 };
 
-async function displayContainers() {
+/*async function displayContainers() {
     try {
         fs.writeFileSync('public/views/containers.pug', '');
 
@@ -157,7 +159,7 @@ async function displayContainers() {
     } catch (error) {
         console.error('Could not display containers: ', error);
     }
-}
+}*/
 
 //FOR TESTING
 async function removeStoppedContainers() {
