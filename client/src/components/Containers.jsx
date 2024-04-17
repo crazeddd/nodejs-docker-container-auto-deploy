@@ -1,13 +1,15 @@
-//import { useState } from 'react'
+//import { useState } from 'react';
 //require('dotenv').config();
 
-import containers from '../containers.json'
+import containers from '../containers.json';
+
+//const apiHost = process.env.REACT_APP_API_HOST;
 
 function Containers() {
   //const [count, setCount] = useState(0);
 
-  function containerReq(type, data) {
-    let url = `http://localhost:8080/docker/${type}`;
+  function containerPostReq(type, data) {
+    let url = `https://solid-pancake-57qrww64ggf4w44-8080.app.github.dev/docker/${type}`;
 
     fetch(url, {
       method: "POST",
@@ -24,11 +26,11 @@ function Containers() {
   };
 
   function stopContainer() {
-    containerReq('stop', '656');
+    containerPostReq('stop', this.parentNode.nodeName.id);
   };
 
   function startContainer() {
-    containerReq('start', '656');
+    containerPostReq('start', this.parentNode.nodeName.id);
   };
 
   return (
