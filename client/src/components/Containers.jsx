@@ -1,47 +1,43 @@
-//import { useState } from 'react';
-//require('dotenv').config();
+import containers from '../../../containers.json';
 
-import containers from '../containers.json';
-
-//const apiHost = process.env.REACT_APP_API_HOST;
+const apiHost = import.meta.env.VITE_API_HOST;
 
 function Containers() {
-  //const [count, setCount] = useState(0);
 
-  function containerPostReq(type, data) {
-    let url = `https://solid-pancake-57qrww64ggf4w44-8080.app.github.dev/docker/${type}`;
+  function dockerPostReq(type, data) {
+    let url = `${apiHost}/docker/${type}`;
 
     fetch(url, {
-      method: "POST",
+      method: 'POST',
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        id: data
-      })
+      body: JSON.stringify(data)
     })
     .then((res) => res.json())
     .then(data => console.log(data))
     .catch(err => console.error('Error:', err));
   };
 
-  function stopContainer() {
-    containerPostReq('stop', this.parentNode.nodeName.id);
+  const stopContainer = (self) => {
+    let data = {"id": self.currentTarget.id}
+    dockerPostReq('stop', data);
   };
 
-  function startContainer() {
-    containerPostReq('start', this.parentNode.nodeName.id);
+  const startContainer = (self) => {
+    let data = {"id": self.currentTarget.id}
+    dockerPostReq('start', data);
   };
 
   return (
     <>
       {containers.map((container, index) => (
-        <div key={index} id={container.id}>
+        <div key={index}>
           <div>{container.name}</div>
           <div>{container.image}</div>
-          <div class={container.status}></div>
-          <button onClick={stopContainer}>Stop Container</button>
-          <button onClick={startContainer}>Start Container</button>
+          <div className={container.status}></div>
+          <button onClick={stopContainer} id={container.id}>Stop Container</button>
+          <button onClick={startContainer} id={container.id}>Start Container</button>
         </div>
       ))}
     </>
