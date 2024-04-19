@@ -2,7 +2,7 @@ const Docker = require('dockerode');
 const fs = require('fs');
 //const dockerSocketPath = require('./checkOs.js')
 
-//const containers = require('../containers.json');
+const containers = require('../../containers.json');
 
 var docker = new Docker();
 
@@ -93,20 +93,22 @@ exports.appendContainers = async (res, req) => {
                     id: containerInfo.Id,
                     image: containerInfo.Image,
                     names: containerInfo.Names,
-                    //dir: containerInfo.Volumes,
                     status: containerInfo.State
                 };
 
+                console.log(container);
+
                 containers.push(container);
 
-                fs.writeFile("containers.json", JSON.stringify(containers), err => {
+                fs.writeFileSync('../../containers.json', JSON.stringify(containers), err => {
                     if (err) throw new (err);
                 });
+
+                console.log(containers);
 
                 console.log(`Found and appended container: ${containerInfo.Names[0]}`);
             } catch (err) {
                 console.error(`Error appending container: ${containerInfo.Names[0]}`, err);
-                throw new Error(`Error appending container: ${containerInfo.Names[0]}`);
             }
         }
     };
@@ -162,7 +164,7 @@ exports.appendContainers = async (res, req) => {
 }*/
 
 //FOR TESTING
-async function removeStoppedContainers() {
+/*async function removeStoppedContainers() {
     const containers = await docker.listContainers({ all: true });
     for (const containerInfo of containers) {
         if (containerInfo.State === 'exited') {
@@ -175,4 +177,10 @@ async function removeStoppedContainers() {
             }
         }
     }
+}*/
+
+exports.containerState = (req, res) => {
+    let containerId = req.body.id;
+    let container = docker.getContainer(containerId);
+    return(container.State);
 }
