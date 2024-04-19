@@ -4,7 +4,7 @@ const fs = require('fs');
 
 //const containers = require('../containers.json');
 
-var docker = new Docker({ socketPath: '//./pipe/docker_engine' });
+var docker = new Docker();
 
 exports.stopContainer = async (req, res) => {
     let containerId = req.body.id;

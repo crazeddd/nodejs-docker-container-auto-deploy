@@ -1,12 +1,19 @@
-import Containers from "./Containers"
+import Containers from "./Containers";
+import Nav from "./Nav";
+import NavTop from "./NavTop";
+import Footer from "./Footer";
 
 function Panel() {
-    return (
-        <>
-        <h1>Heya!</h1>
-        <Containers/>
-        </>
-    );
-};
+  return (
+    <>
+      <Nav />
+      <main>
+        <NavTop />
+        <Containers />
+        <Footer />
+      </main>
+    </>
+  );
+}
 
 export default Panel;
