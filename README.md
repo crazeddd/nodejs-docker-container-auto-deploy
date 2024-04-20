@@ -1,4 +1,4 @@
-# Docker Panel
+# REKOD Panel
 A simple web panel that allows you to run Docker containers.
 
 ## Setup

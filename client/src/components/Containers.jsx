@@ -40,7 +40,7 @@ function Containers() {
 
   dockerGetReq('refresh');
 
-  const containerState = async (self) => {
+  const containerState = async () => {
     await dockerGetReq('state')
     if (dockerGetReq == 'running') {
       return('running');
@@ -53,10 +53,10 @@ function Containers() {
     setIsActive(current => !current);
     if (isActive) {
       let data = { id: self.currentTarget.id };
-      await dockerPostReq('stop', data);
+      dockerPostReq('stop', data);
     } else {
       let data = { id: self.currentTarget.id };
-      await dockerPostReq('start', data);
+      dockerPostReq('start', data);
     }
   };
 

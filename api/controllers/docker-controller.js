@@ -1,117 +1,132 @@
-const Docker = require('dockerode');
-const fs = require('fs');
+const Docker = require("dockerode");
+const fs = require("fs");
+const path = require('path');
 //const dockerSocketPath = require('./checkOs.js')
 
-const containers = require('../../containers.json');
+const containersPath = path.join(__dirname, '../../containers.json');
 
 var docker = new Docker();
 
 exports.stopContainer = async (req, res) => {
-    let containerId = req.body.id;
-    let container = docker.getContainer(containerId);
-    container.stop((err) => {
-        if (err) {
-            res.status(500).json(`Failed to stop container ${containerId}`);
-            console.error(`Error when stopping ${containerId} (${err})`);
-        } else {
-            res.status(200).json(`Successfully stopped container ${containerId}`);
-            console.log(`Successfully stopped ${containerId}`);
-        }
-    });
-}
-
-exports.startContainer = async (req, res) => {
-    let containerId = req.body.id;
-    let container = docker.getContainer(containerId);
-    container.start((err) => {
-        if (err) {
-            res.status(500).json(`Failed to start container ${containerId}`);
-            console.error(`Error when starting ${containerId} (${err})`)
-        } else {
-            res.status(200).json(`Successfully started container ${containerId}`);
-            console.log(`Successfully started ${containerId}`);
-        }
-    });
-}
-
-exports.buildContainer = async (req, res) => {
-    for (let input in req.body) {
-        if (input == null) {
-            return res.status(500).json('Please fill out all the inputs');
-        }
+  let containerId = req.body.id;
+  let container = docker.getContainer(containerId);
+  container.stop((err) => {
+    if (err) {
+      res.status(500).json(`Failed to stop container ${containerId}`);
+      console.error(`Error when stopping ${containerId} (${err})`);
+    } else {
+      res.status(200).json(`Successfully stopped container ${containerId}`);
+      console.log(`Successfully stopped ${containerId}`);
     }
-    const containerConfig = {
-        Image: req.body.image,
-        name: req.body.name,
-        ExposedPorts: {
-            [`${req.body.port}/${req.body.protocol}`]: {}
-        },
-        HostConfig: {
-            PortBindings: {
-                [`${req.body.port}/${req.body.protocol}`]: [{ HostPort: req.body.port }]
-            }
-        },
-        Env: [
-            req.body.env
-        ],
-    };
-
-    console.log(containerConfig);
-
-    docker.createContainer(containerConfig, (err, container) => {
-        if (err) {
-            res.status(500).json(`Failed to create container`);
-            console.error('Error creating container: ', err);
-        } else {
-            container.start((startErr) => {
-                if (startErr) {
-                    console.error('Error starting container: ', startErr);
-                } else {
-                    res.status(200).json(`Container ${container} created and started successfully!`);
-                    console.log(`Container ${container} created and started successfully!`);
-                };
-            });
-        };
-    });
+  });
 };
 
-exports.appendContainers = async (res, req) => {
-    const containerList = await docker.listContainers({ all: true });
-
-    var savedContainers = [];
-    for (let i = 0; i < containers.length; i++) {
-        savedContainers.push(containers[i].id);
+exports.startContainer = async (req, res) => {
+  let containerId = req.body.id;
+  let container = docker.getContainer(containerId);
+  container.start((err) => {
+    if (err) {
+      res.status(500).json(`Failed to start container ${containerId}`);
+      console.error(`Error when starting ${containerId} (${err})`);
+    } else {
+      res.status(200).json(`Successfully started container ${containerId}`);
+      console.log(`Successfully started ${containerId}`);
     }
+  });
+};
 
+exports.buildContainer = async (req, res) => {
+  for (let input in req.body) {
+    if (input == null) {
+      return res.status(500).json("Please fill out all the inputs");
+    }
+  }
+  const containerConfig = {
+    Image: req.body.image,
+    name: req.body.name,
+    ExposedPorts: {
+      [`${req.body.port}/${req.body.protocol}`]: {},
+    },
+    HostConfig: {
+      PortBindings: {
+        [`${req.body.port}/${req.body.protocol}`]: [
+          { HostPort: req.body.port },
+        ],
+      },
+    },
+    Env: [req.body.env],
+  };
+
+  console.log(containerConfig);
+
+  docker.createContainer(containerConfig, (err, container) => {
+    if (err) {
+      res.status(500).json(`Failed to create container`);
+      console.error("Error creating container: ", err);
+    } else {
+      container.start((startErr) => {
+        if (startErr) {
+          console.error("Error starting container: ", startErr);
+        } else {
+          res
+            .status(200)
+            .json(`Container ${container} created and started successfully!`);
+          console.log(
+            `Container ${container} created and started successfully!`
+          );
+        }
+      });
+    }
+  });
+};
+
+exports.appendContainers = async (req, res) => {
+  try {
+    let containers = JSON.parse(
+      fs.readFileSync(containersPath, { encoding: "utf8" })
+    );
+    const containerList = await docker.listContainers({ all: true });
+    const savedContainers = containers.map((container) => container.id);
+
+    let caughtNewContainer = false;
     for (const containerInfo of containerList) {
-        for (let i = 0; i < containers.length; i++) {
-            containers.filter((container) => containers[i].id !== containerInfo);
+      if (!savedContainers.includes(containerInfo.Id)) {
+        let container = {
+          id: containerInfo.Id,
+          image: containerInfo.Image,
+          names: containerInfo.Names,
+          status: containerInfo.State,
+        };
+
+        containers.push(container);
+        caughtNewContainer = true;
+        if (caughtNewContainer) {
+          try {
+            fs.writeFileSync(
+              containersPath,
+              JSON.stringify(containers)
+            );
+          } catch (err) {
+            console.error(
+              `Error appending container: ${containerInfo.Names[0]}`,
+              err
+            );
+            res
+              .status(500)
+              .json(`Error appending container: ${containerInfo.Names[0]}`);
+            return;
+          }
         }
-        if (!savedContainers.includes(containerInfo.Id)) {
-            try {
-                let container = {
-                    id: containerInfo.Id,
-                    image: containerInfo.Image,
-                    names: containerInfo.Names,
-                    status: containerInfo.State
-                };
-
-                console.log(container);
-
-                containers.push(container);
-
-                fs.writeFileSync('../../containers.json', JSON.stringify(containers), err => {
-                    if (err) throw new (err);
-                });
-
-                console.log(containers);
-
-                console.log(`Found and appended container: ${containerInfo.Names[0]}`);
-            } catch (err) {
-                console.error(`Error appending container: ${containerInfo.Names[0]}`, err);
-            }
-        }
-    };
+        console.log(`Found and appended container: ${containerInfo.Names[0]}`);
+        res
+          .status(200)
+          .json(`Found and appended container: ${containerInfo.Names[0]}`);
+      }
+    }
+  } catch (err) {
+    console.error("Error processing containers:", err);
+    res.status(500).json("Error processing containers");
+  }
 };
 
 /*async function displayContainers() {
@@ -180,7 +195,7 @@ exports.appendContainers = async (res, req) => {
 }*/
 
 exports.containerState = (req, res) => {
-    let containerId = req.body.id;
-    let container = docker.getContainer(containerId);
-    return(container.State);
-}
+  let containerId = req.body.id;
+  let container = docker.getContainer(containerId);
+  return container.State;
+};
