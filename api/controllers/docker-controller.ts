@@ -1,7 +1,7 @@
 //Npm Imports
 const Docker = require("dockerode");
 const fs = require("fs");
-const path = require("path");
+var path = require("path");
 
 const containersPath = path.join(__dirname, "../../containers.json");
 
@@ -38,7 +38,7 @@ exports.startContainer = async (req, res) => {
 };
 
 exports.refreshContainers = async (req, res) => {
-  let containers = [];
+  let containers : any[] = [];
   try {
     const containerList = await docker.listContainers({ all: true }); //Grabs a list of all running containers
 

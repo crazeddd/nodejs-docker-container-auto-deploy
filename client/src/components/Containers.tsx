@@ -10,7 +10,7 @@ function Containers() {
   const [containers, appendContainers] = useState([]);
 
   //Fetchs the stop or start containers function via the API
-  const updateContainers = (type, data) => {
+  const updateContainers = (type: string, data: { id: any; }) => {
     let url = `${apiHost}/docker/${type}`;
 
     fetch(url, {
@@ -46,9 +46,9 @@ function Containers() {
   };
 
   // Updates container state server side
-  const changeState = async (self) => {
-    function getStateById(containers, id) {
-      var container = containers.find(function (obj) {
+  const changeState = async (self: any) => {
+    function getStateById(containers: any[], id: number) {
+      var container = containers.find(function (obj: any) {
         return obj.id === id;
       });
       return container ? container.state : null;
@@ -91,7 +91,7 @@ function Containers() {
       <div className="servers column">
         {containers.map(
           // Map each container in the containers json obj
-          (container, index) => (
+          (container : any, index : number) => (
             <div className="server widget secondary row" key={index}>
               <div className="row">
                 <button

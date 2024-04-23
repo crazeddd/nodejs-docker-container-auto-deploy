@@ -7,7 +7,7 @@ export default function ErrorPage() {
 
   return (
     <div className="center widget column error-page">
-      <h1 class="gradient-text">Uh Oh</h1>
+      <h1 className="gradient-text">Uh Oh</h1>
       <br />
       <h5>Sorry, an unexpected error has occurred:</h5>
       <br />

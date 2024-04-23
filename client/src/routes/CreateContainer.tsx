@@ -12,14 +12,14 @@ function Panel() {
   let navigate = useNavigate();
 
   //EVENT HANDLER CODE FROM W3 SCHOOLS NOT MINE
-  const handleChange = (event) => {
+  const handleChange = (event: any) => {
     const name = event.target.name,
       value = event.target.value;
-    setData((values) => ({ ...values, [name]: value }));
+    setData((values: string[]) => ({ ...values, [name]: value }));
   };
 
   //Fetchs the stop or start containers function via the API
-  const sumbitForm = async (self) => {
+  const sumbitForm = async (self: any) => {
     self.preventDefault();
 
     let url = `${apiHost}/docker/build-container`;
