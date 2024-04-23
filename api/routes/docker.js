@@ -1,16 +1,16 @@
+//Npm Imports
 var express = require('express');
 var router = express.Router();
 
-const dockerRoutes = require('../controllers/docker-controller.js')
+const dockerRoutes = require('../controllers/docker-controller.js'); //Controller import
 
-router.post('/stop', dockerRoutes.stopContainer);
+//Routes
+router.post('/stop', dockerRoutes.stopContainer); //Stops container
 
-router.post('/start', dockerRoutes.startContainer);
+router.post('/start', dockerRoutes.startContainer); //Starts container
 
-router.post('/build-container', dockerRoutes.buildContainer);
+router.post('/build-container', dockerRoutes.buildContainer); //Builds new container
 
-router.get('/refresh', dockerRoutes.appendContainers);
-
-router.get('/state', dockerRoutes.containerState);
+router.get('/refresh', dockerRoutes.refreshContainers); //Refreshs containers
 
 module.exports = router;

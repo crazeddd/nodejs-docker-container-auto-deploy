@@ -1,7 +1,7 @@
-import Containers from "./Containers";
-import Nav from "./Nav";
-import NavTop from "./NavTop";
-import Footer from "./Footer";
+import Containers from "../components/Containers";
+import Nav from "../components/Nav";
+import NavTop from "../components/NavTop";
+import Footer from "../components/Footer";
 
 function Panel() {
   return (

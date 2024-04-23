@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css?family=Figtree:800|DM+Sans:400");
+@import url("https://fonts.googleapis.com/css?family=Figtree:800|DM+Sans:400"); /*Google Fonts Import*/
 
 :root {
   --text: hsla(247, 57%, 91%, 1);
   --text_light: hsla(247, 57%, 91%, 0.9);
   --text_dark: hsla(247, 57%, 91%, 0.5);
-  --background: rgb(20, 21, 20);
+  --background: #181a20;
   --background_dark: rgb(16, 16, 15);
   --primary: #80ffdb;
   --secondary: hsla(247, 8%, 25%, 0.5);
@@ -35,8 +35,6 @@ h5 {
 html {
   font-size: 100%;
 }
-
-/* 16px */
 
 h1 {
   font-size: 8rem;
@@ -74,6 +72,14 @@ small {
 }
 
 body {
+  background: linear-gradient(
+    267deg,
+    var(--background_dark),
+    var(--background)
+  );
+}
+
+wrapper {
   height: 100%;
   width: 100%;
   display: flex;
@@ -85,11 +91,6 @@ body {
   font-family: "DM Sans";
   font-weight: 400;
   color: var(--text);
-  background: linear-gradient(
-    267deg,
-    var(--background_dark),
-    var(--background)
-  );
 }
 
 main {
@@ -117,6 +118,18 @@ button {
 button,
 a {
   cursor: pointer;
+}
+
+input {
+  outline: none;
+  border: none;
+  font-size: 0.8rem;
+  color: var(--text);
+  resize: none;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background-color: var(--secondary);
+  flex-grow: 1;
 }
 
 .circle {
@@ -297,6 +310,15 @@ glob {
   visibility: visible;
 }
 
+/*ERR*/
+
+.error-page {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
 /*Scroll*/
 ::-webkit-scrollbar {
   display: none;
@@ -304,7 +326,7 @@ glob {
 
 /*Screen*/
 @media only screen and (max-width: 800px) {
-  body {
+  wrapper {
     padding: 2rem;
   }
 }
