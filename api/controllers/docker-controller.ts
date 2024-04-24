@@ -1,9 +1,6 @@
 //Npm Imports
 const Docker = require("dockerode");
 const fs = require("fs");
-var path = require("path");
-
-const containersPath = path.join(__dirname, "../../containers.json");
 
 var docker = new Docker(); //Create a new instance of dockerode
 
