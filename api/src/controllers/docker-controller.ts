@@ -4,10 +4,10 @@ const fs = require("fs");
 
 var docker = new Docker(); //Create a new instance of dockerode
 
-exports.stopContainer = async (req, res) => {
+exports.stopContainer = async (req: any, res: any) => {
   let containerId = req.body.id; //Gets the id body elem
   let container = docker.getContainer(containerId); //Gets the container from id
-  container.stop((err) => {
+  container.stop((err: string) => {
     //Attempts to stop container
     if (err) {
       res.status(500).json(`Failed to stop container ${containerId}`);
@@ -19,10 +19,10 @@ exports.stopContainer = async (req, res) => {
   });
 };
 
-exports.startContainer = async (req, res) => {
+exports.startContainer = async (req: any, res: any) => {
   let containerId = req.body.id; //Gets the id body elem
   let container = docker.getContainer(containerId); //Gets the container from id
-  container.start((err) => {
+  container.start((err: string) => {
     //Attempts to start container
     if (err) {
       res.status(500).json(`Failed to start container ${containerId}`);
@@ -34,8 +34,8 @@ exports.startContainer = async (req, res) => {
   });
 };
 
-exports.refreshContainers = async (req, res) => {
-  let containers : any[] = [];
+exports.refreshContainers = async (req: any, res: any) => {
+  let containers: any[] = [];
   try {
     const containerList = await docker.listContainers({ all: true }); //Grabs a list of all running containers
 
@@ -58,7 +58,7 @@ exports.refreshContainers = async (req, res) => {
   }
 };
 
-exports.buildContainer = async (req, res) => {
+exports.buildContainer = async (req: any, res: any) => {
   for (let input in req.body) {
     //Tests all input fields to assure they're filled
     if (input == null) {
@@ -84,13 +84,13 @@ exports.buildContainer = async (req, res) => {
 
   console.log(containerConfig);
 
-  docker.createContainer(containerConfig, (err, container) => {
+  docker.createContainer(containerConfig, (err: string, container: any) => {
     //Attempts to create container
     if (err) {
       res.status(500).json(`Failed to create container ${err}`);
       console.error(`Error creating container: ${err}`);
     } else {
-      container.start((startErr) => {
+      container.start((startErr: string) => {
         //After successfully creating container attempts to start container
         if (startErr) {
           console.error("Error starting container: ", startErr);

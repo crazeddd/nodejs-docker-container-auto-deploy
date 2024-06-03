@@ -3,7 +3,8 @@ client/node_modules
 api/node_modules
 
 # production
-client/build
+client/dist
+api/dist
 
 # misc
 npm-debug.log*
