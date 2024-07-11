@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public'))); //Serve static files
 
 //CORS functionality
 app.use(cors({
-  origin: ['https://solid-pancake-57qrww64ggf4w44-3000.app.github.dev', 'http://localhost:3000'], //Allowed origins
+  origin: ['http://localhost:3000'], //Allowed origins
   methods: ['GET', 'POST', 'PUT'] //Allowed methods
 }));
 
