@@ -2,9 +2,9 @@
 A simple web panel for your Docker containers.
 
 ## Setup
-To start you need to have both Docker and Node installed.
+To start you need to have both Docker and Node installed (be sure the Docker Engine is running too!).
 
-Clone the repo and nagviate from the root directory to both the client and api folders. In both run `npm install` & `npx tsc` to compile all the ts files, from there run `npm start` start the client & api.
+Clone the repo and nagviate from the root directory to both the client and api folders. In both run `npm install` for dependencies and then in only the api folder run `npx tsc` to compile the typescript, from there run `npm start` start the client & api.
 
 The client should now be accessible from http://localhost:3000.
 
