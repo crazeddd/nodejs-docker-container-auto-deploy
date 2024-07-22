@@ -5,7 +5,7 @@
   "main": "src/app.ts",
   "type": "commonjs",
   "scripts": {
-    "start": "node --loader tsx dist/bin/www.js",
+    "start": "node --loader tsx bin/www.js",
     "build": "npx tsc"
   },
   "dependencies": {
