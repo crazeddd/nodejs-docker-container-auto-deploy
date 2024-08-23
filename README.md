@@ -11,8 +11,8 @@ The client should now be accessible from http://localhost:3000.
 The api runs on port 8080 by default.
 
 ### Future Plans
-- [] Create user system
-- [] More container options
-- [] Create Docker config
-- [] Log all container proccesses 
+- [ ] Create user system
+- [ ] More container options
+- [ ] Create Docker config
+- [ ] Log all container proccesses 
 
